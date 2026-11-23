@@ -67,7 +67,10 @@ The paper is organized as follows. Section~\ref{sec:model} introduces the Hubbar
 
 We model a fractal superconductor on a finite graph of $N$ sites by the attractive Hubbard Hamiltonian in the grand-canonical ensemble,
 \begin{equation}
-\hat{H} - \mu\hat{N} = -t\sum_{\langle ij\rangle,\sigma} \left(\hat{c}_{i\sigma}^\dagger \hat{c}_{j\sigma} + \mathrm{H.c.}\right) - \mu\sum_{i,\sigma} \hat{n}_{i\sigma} - U\sum_i \hat{n}_{i\uparrow}\hat{n}_{i\downarrow},
+\begin{aligned}
+\hat{H} - \mu\hat{N} ={}& -t\sum_{\langle ij\rangle,\sigma} \left(\hat{c}_{i\sigma}^\dagger \hat{c}_{j\sigma} + \mathrm{H.c.}\right) \\
+& - \mu\sum_{i,\sigma} \hat{n}_{i\sigma} - U\sum_i \hat{n}_{i\uparrow}\hat{n}_{i\downarrow},
+\end{aligned}
 \label{eq:hubbard_main}
 \end{equation}
 where $\hat{c}_{i\sigma}^\dagger$ ($\hat{c}_{i\sigma}$) creates (annihilates) a fermion of spin $\sigma \in \{\uparrow,\downarrow\}$ at site $i$, $\hat{n}_{i\sigma} = \hat{c}_{i\sigma}^\dagger \hat{c}_{i\sigma}$, $t = 1$ is the nearest-neighbor hopping on active graph bonds, $\mu$ is the chemical potential, and $U > 0$ parametrizes the on-site attraction (throughout, $\hbar = k_B = 1$ and energies are in units of $t$).
@@ -79,7 +82,10 @@ Within the self-consistent BdG approximation with on-site Hartree shift~\cite{dG
 \end{equation}
 At the static saddle point $\Delta_i(\tau) = \Delta_i$, the $2N \times 2N$ BdG Hamiltonian in the reduced Nambu basis $\Psi_i = (\hat{c}_{i\uparrow}, \hat{c}_{i\downarrow}^\dagger)^T$ reads
 \begin{equation}
-\mathcal{H}_{\mathrm{BdG}} = \begin{pmatrix} \hat{h}_\uparrow & \hat{\Delta} \\ \hat{\Delta}^\dagger & -\hat{h}_\downarrow^T \end{pmatrix}, \qquad (\hat{h}_\sigma)_{ij} = -t A_{ij} - \left(\mu + U n_{i\bar{\sigma}}\right)\delta_{ij},
+\begin{aligned}
+\mathcal{H}_{\mathrm{BdG}} &= \begin{pmatrix} \hat{h}_\uparrow & \hat{\Delta} \\ \hat{\Delta}^\dagger & -\hat{h}_\downarrow^T \end{pmatrix}, \\
+(\hat{h}_\sigma)_{ij} &= -t A_{ij} - \left(\mu + U n_{i\bar{\sigma}}\right)\delta_{ij},
+\end{aligned}
 \label{eq:H_bdg_matrix}
 \end{equation}
 where $A_{ij} \in \{0,1\}$ is the adjacency matrix and $\hat{\Delta} = \mathrm{diag}(\Delta_1, \dots, \Delta_N)$. Solving the eigenvalue problem
@@ -90,11 +96,14 @@ where $A_{ij} \in \{0,1\}$ is the adjacency matrix and $\hat{\Delta} = \mathrm{d
 yields the quasiparticle energies $E_n$ and amplitudes $(u_{in}, v_{in})$, which close the self-consistency equations
 \begin{align}
 \Delta_i &= \frac{U}{2}\sum_n u_{in} v_{in}^* \tanh\left(\frac{E_n}{2T}\right), \label{eq:gap_scf} \\
-n_{i\uparrow} &= \sum_n |u_{in}|^2 f(E_n), \qquad n_{i\downarrow} = \sum_n |v_{in}|^2 \left[1 - f(E_n)\right], \label{eq:density_scf}
+n_{i\uparrow} &= \sum_n |u_{in}|^2 f(E_n), \quad n_{i\downarrow} = \sum_n |v_{in}|^2 \left[1 - f(E_n)\right], \label{eq:density_scf}
 \end{align}
 with $f(E) = (e^{E/T} + 1)^{-1}$ and sums running over all $2N$ eigenstates. The mean-field grand potential at stationary density is
 \begin{equation}
-\Omega_{\mathrm{MF}}(\Delta) = \sum_i \frac{|\Delta_i|^2}{U} - T\sum_n \ln\left(1 + e^{-E_n/T}\right) + \Tr \hat{h}_\downarrow + U\sum_i n_{i\uparrow}n_{i\downarrow}.
+\begin{aligned}
+\Omega_{\mathrm{MF}}(\Delta) ={}& \sum_i \frac{|\Delta_i|^2}{U} - T\sum_n \ln\left(1 + e^{-E_n/T}\right) \\
+& + \Tr \hat{h}_\downarrow + U\sum_i n_{i\uparrow}n_{i\downarrow}.
+\end{aligned}
 \label{eq:omega_mf}
 \end{equation}
 
@@ -122,7 +131,7 @@ where $V_b^{nm}$ is the bond-current matrix element [Eq.~\eqref{eq:A46}] and the
 
 Projecting the bond Hessian onto site phases via the directed bond--site incidence matrix $B_{bi}$ ($\varphi_b = \sum_i B_{bi}\theta_i$) introduces a factor of $1/4$ from $\alpha_b = \varphi_b / 2$ and yields $\delta\Omega = \frac{1}{2}\bm{\theta}^T L \bm{\theta}$ with site-phase Laplacian $L = \frac{1}{4}B^T K^{(\alpha)} B$. Matching to the harmonic expansion of an XY model defines the formal harmonic couplings
 \begin{equation}
-J_{ij}^{\mathrm{harm}} = -L_{ij} = -\frac{1}{4}\left[ B^T K^{(\alpha)} B \right]_{ij}, \qquad i \neq j.
+J_{ij}^{\mathrm{harm}} = -L_{ij} = -\frac{1}{4}\left[ B^T K^{(\alpha)} B \right]_{ij} \quad (i \neq j).
 \label{eq:eq5_J_harm}
 \end{equation}
 Global $U(1)$ invariance ensures $\sum_j L_{ij} = 0$, which we verify numerically alongside matrix-free evaluation of $K^{(\alpha)}\bm{v}$.
@@ -142,17 +151,23 @@ which automatically includes the multiband quantum-geometric contribution in clu
 \subsection{The four-rung hierarchy of phase-fluctuation methods}
 \label{subsec:four_rungs}
 
-On a perforated fractal, the uniform-twist Scalapino--White--Zhang (SWZ) superfluid weight~\cite{SWZ93} violates current conservation at hole boundaries because currents must deflect around lacunae. Moreover, inserting the nonlocal couplings $J_{ij}^{\mathrm{harm}}$ of Eq.~\eqref{eq:eq5_J_harm} directly into a long-range cosine model $-\sum_{i<j} J_{ij}^{\mathrm{harm}}\cos(\theta_i - \theta_j)$ fails whenever $\xi_K > 1$: on a $27\times 27$ square lattice at $U=1$ ($\xi_{\mathrm{pair}} \simeq 9.6$, $\xi_K \simeq 7.7$), over $85\%$ of the harmonic stiffness comes from pairs separated by more than five sites, where spin waves rapidly suppress $\langle\cos(\theta_i - \theta_j)\rangle$. We therefore compare four rungs (A, B, P, and C) using a common two-terminal contact setup that pins $\theta|_{\mathcal{L}} = 0$ on a left lead $\mathcal{L}$ of width $w$ and $\theta|_{\mathcal{R}} = \varphi$ on a right lead $\mathcal{R}$, normalized by the unit-coupling harmonic conductance $g_0$ (Sec.~\ref{sec:observables}).
+On a perforated fractal, the uniform-twist Scalapino--White--Zhang (SWZ) superfluid weight~\cite{SWZ93} violates current conservation at hole boundaries because currents must deflect around lacunae. Moreover, inserting the nonlocal couplings $J_{ij}^{\mathrm{harm}}$ of Eq.~\eqref{eq:eq5_J_harm} directly into a long-range cosine model $-\sum_{i<j} J_{ij}^{\mathrm{harm}}\cos(\theta_i - \theta_j)$ fails whenever $\xi_K$ exceeds the lattice spacing: when most of the harmonic stiffness resides in distant site pairs, thermal spin waves rapidly suppress $\langle\cos(\theta_i - \theta_j)\rangle$ at long range and artificially destroy the stiffness. We therefore compare four rungs (A, B, P, and C) using a common two-terminal contact setup that pins $\theta|_{\mathcal{L}} = 0$ on a left lead $\mathcal{L}$ of width $w$ and $\theta|_{\mathcal{R}} = \varphi$ on a right lead $\mathcal{R}$, normalized by the unit-coupling harmonic conductance $g_0$ (Sec.~\ref{sec:observables}).
 
 \paragraph*{Rung A: Exact self-consistent BdG lead twist and the Schur complement.}
 Rung~A omits thermal fluctuations but treats spatial relaxation of amplitudes, phases, and densities around all holes and contacts self-consistently. Converging BdG solutions at $\varphi = 0$ and $\varphi = 0.05$, we combine the grand-potential difference and boundary current $I(\varphi) = -2\sum_{k \in \mathcal{R}}\operatorname{Im}(g_k \Delta_k)$ [with $g_k = \sum_n f(E_n) u_{kn}^* v_{kn}$],
 \begin{equation}
-K_E = \frac{2\left[\Omega_{\mathrm{MF}}(\varphi) - \Omega_{\mathrm{MF}}(0)\right]}{\varphi^2}, \qquad K_I = \frac{I(\varphi)}{\varphi}, \qquad K_X = 2K_E - K_I,
+\begin{aligned}
+K_E &= \frac{2\left[\Omega_{\mathrm{MF}}(\varphi) - \Omega_{\mathrm{MF}}(0)\right]}{\varphi^2}, \\
+K_I &= \frac{I(\varphi)}{\varphi}, \qquad K_X = 2K_E - K_I,
+\end{aligned}
 \label{eq:rung_A_extrap}
 \end{equation}
 so $\rlead \equiv \rho_A = K_X / g_0$ cancels $\mathcal{O}(\varphi^4)$ errors. Because amplitudes respond only at $\mathcal{O}(\varphi^2)$ [contributing to $\Omega_{\mathrm{MF}}$ at $\mathcal{O}(\varphi^4)$], $\rho_A$ equals the frozen-amplitude Schur complement obtained by integrating out the free interior sites ($F$) from the exact site-phase kernel $K_{ij} = \partial^2 F / \partial\theta_i\partial\theta_j$ at pinned lead phases ($P = \mathcal{L} \cup \mathcal{R}$):
 \begin{equation}
-\rho_K(w) = \frac{1}{g_0}\min_{\theta|_{\mathcal{L}}=0,\ \theta|_{\mathcal{R}}=1} \bm{\theta}^T K \bm{\theta} = \frac{1}{g_0}\left(\bm{t}^T K_{PP}\bm{t} - \bm{t}^T K_{PF} K_{FF}^{-1} K_{FP}\bm{t}\right),
+\begin{aligned}
+\rho_K(w) &= \frac{1}{g_0}\min_{\theta|_{\mathcal{L}}=0,\ \theta|_{\mathcal{R}}=1} \bm{\theta}^T K \bm{\theta} \\
+&= \frac{1}{g_0}\left(\bm{t}^T K_{PP}\bm{t} - \bm{t}^T K_{PF} K_{FF}^{-1} K_{FP}\bm{t}\right),
+\end{aligned}
 \label{eq:schur_complement}
 \end{equation}
 where $\bm{t}$ is the indicator of $\mathcal{R}$. Equation~\eqref{eq:schur_complement} matches the self-consistent lead twist to four digits across all $w$.
@@ -181,7 +196,10 @@ retaining both the exact nonlocal phase kernel and the non-cosine fermionic ener
 \paragraph*{Rung C: Full static-path BdG Hybrid Monte Carlo (amplitudes and phases).}
 Rung~C samples the full static-path weight $e^{-\beta F[\Delta]}$ over both complex amplitudes and phases~\cite{MASD05,DMA07,EM10}. In both Rungs~P and~C, a single diagonalization of $\mathcal{H}_{\mathrm{BdG}}[\Delta]$ provides $F[\Delta]$ and the exact Hellmann--Feynman forces
 \begin{equation}
-\frac{\partial F}{\partial(\operatorname{Re}\Delta_i)} = \frac{2\operatorname{Re}\Delta_i}{U} + 2\operatorname{Re} g_i, \qquad \frac{\partial F}{\partial(\operatorname{Im}\Delta_i)} = \frac{2\operatorname{Im}\Delta_i}{U} - 2\operatorname{Im} g_i,
+\begin{aligned}
+\frac{\partial F}{\partial(\operatorname{Re}\Delta_i)} &= \frac{2\operatorname{Re}\Delta_i}{U} + 2\operatorname{Re} g_i, \\
+\frac{\partial F}{\partial(\operatorname{Im}\Delta_i)} &= \frac{2\operatorname{Im}\Delta_i}{U} - 2\operatorname{Im} g_i,
+\end{aligned}
 \label{eq:hellmann_feynman}
 \end{equation}
 with $g_i = \sum_n f(E_n[\Delta]) u_{in}^* v_{in}$. To suppress critical slowing down in HMC~\cite{DKPR87,Nea11}, we precondition the phase dynamics with the dense mass matrix
@@ -201,7 +219,7 @@ where $K_{FF}$ is the exact free-site phase kernel. With the kinetic energy $\fr
 
 We study three self-similar fractal families---the Sierpi\'nski carpet, the triangular Sierpi\'nski gasket, and the honeycomb Sierpi\'nski gasket---and compare each against a regular parent lattice of identical outer footprint (Table~\ref{tab:lattices}).
 
-\begin{table}[t]
+\begin{table*}[t]
 \caption{Parameters of the fractal and parent lattices: generation $G$, elementary unit $n$, site count $N$, bond count $N_{\mathrm{bonds}}$, Hausdorff dimension $d_H$, and role. The $G=0$ lattices share the outer side length ($L = 27$ or $33$) of the $G=3$ carpet and $G=4$ gaskets.}
 \label{tab:lattices}
 \begin{ruledtabular}
@@ -222,7 +240,7 @@ Carpet G3 & $G=3,\ n=1$ & 512 & 776 & $\ln 8/\ln 3 \approx 1.893$ & Inf.\ ram.\ 
 Square ($27\times 27$) & $G=0,\ n=27$ & 729 & 1404 & $2$ & Filled parent \\
 \end{tabular}
 \end{ruledtabular}
-\end{table}
+\end{table*}
 
 The Sierpi\'nski carpet of generation $G$ is built by subdividing a square into $3 \times 3$ sub-squares, removing the central one, and iterating $G$ times on the remaining eight cells ($N = 8^G n^2$ sites and linear side $L = 3^G n$ for $n \times n$ terminal patches). It is infinitely ramified because isolating a sub-block requires cutting $\propto 2^G$ bonds. The triangular Sierpi\'nski gasket ($n=3$) joins three generation-$(G-1)$ triangles at shared corner vertices around a central triangular hole, giving $N = \frac{3}{2}(3^G + 1)$ sites and $3^{G+1}$ bonds across a side $L = 2^G + 1$; the honeycomb gasket replaces each elementary triangle by a six-site hexagon, giving $N = \frac{1}{2}(5\cdot 3^G + 3)$ sites and $3^{G+1}$ bonds. Both gaskets are finitely ramified, as any sub-gasket connects to the rest of the graph through at most three corner sites. In all graphs, the elementary microscopic plaquettes ($L_\partial = 3, 4, 6$) and the internal fractal lacunae of perimeter $L_\partial$ form a complete cycle basis satisfying Euler's relation $N_{\mathrm{faces}} = N_{\mathrm{bonds}} - N + 1$.
 
@@ -243,7 +261,7 @@ From the post-thermalization time series of each observable $O$, we compute the 
 \end{equation}
 and estimate the integrated autocorrelation time $\tau_O$ using Sokal's self-consistent window~\cite{MS88},
 \begin{equation}
-\tau_O = \frac{1}{2} + \sum_{t=1}^{M} \rho_O(t), \qquad M = \min\left\{m : m \ge 6\tau_O(m)\right\}.
+\tau_O = \frac{1}{2} + \sum_{t=1}^{M} \rho_O(t), \quad M = \min\left\{m : m \ge 6\tau_O(m)\right\}.
 \label{eq:eq8_sokal}
 \end{equation}
 Setting $\tau_{\mathrm{slow}} = \max_O \tau_O$, the estimation window is extended adaptively until it exceeds $30\tau_{\mathrm{slow}}$, after which $5000$ production measurements per chain are recorded at intervals of $\tau_{\mathrm{slow}}$. Uncertainties are evaluated from non-overlapping blocks of length $\lceil c_B \tau_{\mathrm{max}}\rceil$ ($\ge 30$ blocks per chain) pooled across all chains, using standard block errors for linear averages and delete-one-block jackknife resampling for nonlinear cumulants~\cite{FP89,You15}. The same adaptive autocorrelation and block-jackknife pipeline is used in our HMC runs (Rungs~P and~C).
@@ -258,7 +276,10 @@ Because pinned contacts bias local energy and vortex fluctuations, thermodynamic
 \end{equation}
 and the magnetization components and magnitude are
 \begin{equation}
-m_x = \frac{1}{N}\sum_i \cos\theta_i, \qquad m_y = \frac{1}{N}\sum_i \sin\theta_i, \qquad m = \sqrt{m_x^2 + m_y^2},
+\begin{aligned}
+m_x &= \frac{1}{N}\sum_i \cos\theta_i, \qquad m_y = \frac{1}{N}\sum_i \sin\theta_i, \\
+m &= \sqrt{m_x^2 + m_y^2},
+\end{aligned}
 \label{eq:eq10_mag_inst}
 \end{equation}
 with mean magnitude
@@ -269,7 +290,7 @@ with mean magnitude
 For temperature-independent couplings, the specific heat and magnetic susceptibility are
 \begin{align}
 c_V &= \frac{N}{T^2}\left(\langle e^2\rangle - \langle e\rangle^2\right), \label{eq:eq12_cv} \\
-\chi &= \frac{N}{T}\left(\langle m^2\rangle - \langle m\rangle^2\right), \qquad m^2 = m_x^2 + m_y^2. \label{eq:eq13_chi}
+\chi &= \frac{N}{T}\left(\langle m^2\rangle - \langle m\rangle^2\right), \quad m^2 = m_x^2 + m_y^2. \label{eq:eq13_chi}
 \end{align}
 The topological charge (vorticity) on an oriented face $f$ is
 \begin{equation}
@@ -285,7 +306,10 @@ H(\phi) = -\sum_{\langle i,j\rangle} J_{ij}\cos\left(\theta_i - \theta_j + \phi 
 \end{equation}
 where $a_{ij} = u_i - u_j$ and $u_i$ solves the discrete Laplace equation on the interior sites,
 \begin{equation}
-u_i = 0 \quad (i \in \mathcal{L}), \qquad u_i = 1 \quad (i \in \mathcal{R}), \qquad \sum_j J_{ij}(u_i - u_j) = 0 \quad (i \notin \mathcal{L} \cup \mathcal{R}),
+\begin{aligned}
+u_i &= 0 \quad (i \in \mathcal{L}), \qquad u_i = 1 \quad (i \in \mathcal{R}), \\
+\sum_j & J_{ij}(u_i - u_j) = 0 \quad (i \notin \mathcal{L} \cup \mathcal{R}),
+\end{aligned}
 \label{eq:eq16_harmonic_u}
 \end{equation}
 as illustrated in Fig.~\ref{fig:harmonic_profile}.
@@ -329,7 +353,11 @@ H_4 &= -\sum_{\langle i,j\rangle} J_{ij} a_{ij}^4 \cos(\theta_i - \theta_j), \la
 \end{align}
 and, with $\delta H_p = H_p - \langle H_p\rangle$, is evaluated via the full cumulant estimator
 \begin{equation}
-K_4 = \langle H_4\rangle - \frac{1}{T}\left[ 4\langle \delta H_1 \delta H_3\rangle + 3\langle (\delta H_2)^2\rangle \right] + \frac{6}{T^2}\left\langle \delta H_2 (\delta H_1)^2\right\rangle - \frac{1}{T^3}\left[ \langle (\delta H_1)^4\rangle - 3\langle (\delta H_1)^2\rangle^2 \right].
+\begin{aligned}
+K_4 ={}& \langle H_4\rangle - \frac{1}{T}\left[ 4\langle \delta H_1 \delta H_3\rangle + 3\langle (\delta H_2)^2\rangle \right] \\
+& + \frac{6}{T^2}\left\langle \delta H_2 (\delta H_1)^2\right\rangle \\
+& - \frac{1}{T^3}\left[ \langle (\delta H_1)^4\rangle - 3\langle (\delta H_1)^2\rangle^2 \right].
+\end{aligned}
 \label{eq:eq25_K4_full}
 \end{equation}
 In the symmetric ensemble,
@@ -349,7 +377,7 @@ whose negative dip tracks vortex unbinding~\cite{Minnhagen2003}. We locate the f
 \label{sec:uniform_xy}
 %======================================================================
 
-We first consider the uniform nearest-neighbor XY model ($J_{ij} = J = 1$) to isolate the geometric effect of fractal holes on thermal phase fluctuations across five generations of the Sierpi\'nski carpet ($G = 1, \dots, 5$, up to $N = 32\,768$) and seven generations of the triangular and honeycomb gaskets ($G = 1, \dots, 7$, up to $N = 9843$ and $16\,404$). The full temperature profiles of the free-boundary observables ($e, m, c_V, \chi, \rho_v, \rho_{v,\mathrm{hole}}$), two-terminal helicity moduli ($\Upsilon_2, \Upsilon_4$), and real-space spin snapshots are given in Appendix~\ref{app:uniform_xy_panels} (Figs.~\ref{fig:uniform_carpet_panel}--\ref{fig:snapshots_all}); Fig.~\ref{fig:uniform_size_scaling} summarizes the generation dependence of $\Upsilon_2(T)$ and the scaling of the crossover temperature $T^*(G) \equiv T_\times(G)$.
+We first consider the uniform nearest-neighbor XY model ($J_{ij} = J = 1$) to isolate the geometric effect of fractal holes on thermal phase fluctuations across five generations of the Sierpi\'nski carpet ($G = 1, \dots, 5$) and seven generations of the triangular and honeycomb gaskets ($G = 1, \dots, 7$). The full temperature profiles of the free-boundary observables ($e, m, c_V, \chi, \rho_v, \rho_{v,\mathrm{hole}}$), two-terminal helicity moduli ($\Upsilon_2, \Upsilon_4$), and real-space spin snapshots are given in Appendix~\ref{app:uniform_xy_panels} (Figs.~\ref{fig:uniform_carpet_panel}--\ref{fig:snapshots_all}); Fig.~\ref{fig:uniform_size_scaling} summarizes the generation dependence of $\Upsilon_2(T)$ and the scaling of the crossover temperature $T^*(G) \equiv T_\times(G)$.
 
 \begin{figure*}[t]
 \centering
@@ -358,9 +386,9 @@ We first consider the uniform nearest-neighbor XY model ($J_{ij} = J = 1$) to is
 \label{fig:uniform_size_scaling}
 \end{figure*}
 
-Comparing the free-boundary thermodynamics against the two-terminal stiffness (Figs.~\ref{fig:uniform_carpet_panel}--\ref{fig:uniform_honeycomb_panel}) shows a clear separation between short-wavelength energetics and global phase coherence. In all three fractals, $e(T)$ and $c_V(T)$ converge rapidly with $G$ to size-independent curves, with $c_V(T)$ approaching $1/2$ as $T \to 0$ and peaking at a non-divergent, generation-independent temperature $T_{\max c_V}$ ($\simeq 0.74$ on the carpet, $1.00$ on the triangular gasket, and $0.52$ on the honeycomb gasket) associated with local short-range phase alignment. Conversely, the long-wavelength diagnostics---the susceptibility peak $T_{\max \chi}$, the helicity crossing $T^*(G)$, and the fourth-order minimum $T_{\min \Upsilon_4}$---shift to lower temperatures with increasing $G$.
+Comparing the free-boundary thermodynamics against the two-terminal stiffness (Figs.~\ref{fig:uniform_carpet_panel}--\ref{fig:uniform_honeycomb_panel}) shows a clear separation between short-wavelength energetics and global phase coherence. In all three fractals, $e(T)$ and $c_V(T)$ converge rapidly with $G$ to size-independent curves, with $c_V(T)$ approaching $1/2$ as $T \to 0$ and peaking at a non-divergent, generation-independent temperature $T_{\max c_V}$ associated with local short-range phase alignment. Conversely, the long-wavelength diagnostics---the susceptibility peak $T_{\max \chi}$, the helicity crossing $T^*(G)$, and the fourth-order minimum $T_{\min \Upsilon_4}$---shift to lower temperatures with increasing $G$.
 
-Stratifying the vorticity $q_f$ by hole perimeter $L_\partial$ [panel~(f) of Figs.~\ref{fig:uniform_carpet_panel}--\ref{fig:uniform_honeycomb_panel} and Fig.~\ref{fig:snapshots_all}] shows that this drift is driven by a scale-separated hierarchy of vortex activation. Because a vortex enclosed by a lacuna of perimeter $L_\partial$ spreads its $2\pi$ phase winding over $L_\partial$ boundary bonds without a core ($\nabla\theta \sim 2\pi/L_\partial$), its creation energy decreases with perimeter. Vortices therefore populate the largest lacunae at temperatures several times below the onset of elementary plaquette vortices ($L_\partial = 3, 4, 6$). At $T \simeq T^*(G)$, elementary plaquettes remain nearly vortex-free while topological charges occupying the primary and secondary lacunae destroy two-terminal coherence, accompanied by a finite-depth negative dip in $\Upsilon_4(T)$ ($\min_T \Upsilon_4 \simeq -0.24$ on the carpet and $-0.35$ on the gaskets).
+Stratifying the vorticity $q_f$ by hole perimeter $L_\partial$ [panel~(f) of Figs.~\ref{fig:uniform_carpet_panel}--\ref{fig:uniform_honeycomb_panel} and Fig.~\ref{fig:snapshots_all}] shows that this drift is driven by a scale-separated hierarchy of vortex activation. Because a vortex enclosed by a lacuna of perimeter $L_\partial$ spreads its $2\pi$ phase winding over $L_\partial$ boundary bonds without a core ($\nabla\theta \sim 2\pi/L_\partial$), its creation energy decreases with perimeter. Vortices therefore populate the largest lacunae at temperatures several times below the onset of elementary plaquette vortices. At $T \simeq T^*(G)$, elementary plaquettes remain nearly vortex-free while topological charges occupying the primary and secondary lacunae destroy two-terminal coherence, accompanied by a finite-depth negative dip in $\Upsilon_4(T)$.
 
 As shown in the fourth panel of Fig.~\ref{fig:uniform_size_scaling}, the finite-size scaling of $T^*(G)$ separates finitely and infinitely ramified geometries:
 \begin{enumerate}
@@ -369,8 +397,8 @@ As shown in the fourth panel of Fig.~\ref{fig:uniform_size_scaling}, the finite-
 T^*(G) \propto L^{-x},
 \label{eq:Tstar_powerlaw}
 \end{equation}
-with $x \approx 0.50$ (triangular) and $x \approx 0.56$ (honeycomb), reducing $T^*$ by $2^{-x} \simeq 0.71$ and $0.68$ per generation. At fixed $G$, the honeycomb gasket orders at roughly half the temperature of the triangular gasket due to its lower coordination and doubled lacuna perimeter.
-\item On the infinitely ramified \emph{Sierpi\'nski carpet} ($L = 3^G$), inter-block connectivity grows as $2^G$ and the crossover drifts much more slowly, with an effective exponent $x \approx 0.15$ over $G = 2\text{--}5$ ($T^*/J = 0.715, 0.594, 0.517, 0.453$), comparable over mesoscopic sizes to the logarithmic drift of a 2D BKT transition~\cite{Carpet13}.
+with $x \approx 0.50$ (triangular) and $x \approx 0.56$ (honeycomb). At fixed $G$, the honeycomb gasket orders at roughly half the temperature of the triangular gasket due to its lower coordination and doubled lacuna perimeter.
+\item On the infinitely ramified \emph{Sierpi\'nski carpet} ($L = 3^G$), inter-block connectivity grows as $2^G$ and the crossover drifts much more slowly, with an effective exponent $x \approx 0.15$ over the accessible generations, comparable over mesoscopic sizes to the logarithmic drift of a 2D BKT transition~\cite{Carpet13}.
 \end{enumerate}
 
 %======================================================================
@@ -385,7 +413,7 @@ We now turn to the attractive Hubbard model~\eqref{eq:hubbard_main} and compare 
 \label{sec:u1_campaign}
 %----------------------------------------------------------------------
 
-We first examine the weak-coupling regime, $U = 1$, comparing the $G=4$ gaskets and $G=3$ carpet against their filled $G=0$ parent flakes (Table~\ref{tab:lattices}) at contact width $w = 3$ and fixed chemical potential: $\mu = -0.6721$ on the square and carpet ($\langle n\rangle \approx 0.875\text{--}0.900$), $\mu = 1.15$ on the triangular family ($\langle n\rangle \approx 1.42\text{--}1.45$), and $\mu = -1.40$ on the honeycomb family ($\langle n\rangle \approx 0.67\text{--}0.72$).
+We first examine the weak-coupling regime, $U = 1$, comparing the $G=4$ gaskets and $G=3$ carpet against their filled $G=0$ parent flakes (Table~\ref{tab:lattices}) at contact width $w = 3$ and fixed chemical potential: $\mu = -0.6721$ on the square and carpet, $\mu = 1.15$ on the triangular family, and $\mu = -1.40$ on the honeycomb family (see Table~\ref{tab:u1} for the corresponding electron fillings).
 
 \begin{table*}[t]
 \caption{Weak-coupling ($U=1$, lead width $w=3$) benchmark across the six systems: filling $\langle n\rangle$, mean-field pairing scale $\Tmf$, two-terminal BKT crossover temperatures ($T_A, T_B, T_P, T_{C0}$) at $\rho(T) = 2T/\pi$, low-temperature stiffness ratio $R = \rlead/\rho_{\mathrm{harm}}$, rms pair size $\xi_{\mathrm{pair}}$, phase-kernel range $\xi_K$, Ginzburg--Landau coherence length $\xi_{\mathrm{GL}}$, and nearest-neighbor kernel weight share $f_{\mathrm{NN}}$.}
@@ -411,7 +439,7 @@ Honeycomb gasket $G=4$ & 0.665 & 0.046--0.048 & 0.0383 & 0.0133 & 0.0086 & 0.012
 \label{fig:tbkt_summary}
 \end{figure*}
 
-As shown in Fig.~\ref{fig:tbkt_summary} and Table~\ref{tab:u1}, on the finitely ramified gaskets pair formation and phase coherence move in opposite directions. At the mean-field level, the $G=4$ triangular gasket nearly doubles $\Tmf$ relative to its filled parent flake (with a smaller gain on the honeycomb gasket) because spectral decimation piles nearly one-fifth of all single-particle levels into a narrow cluster just outside the gap edge ($\varepsilon - \mu \approx +0.15$)~\cite{Iliasov2019,Iliasov2020,Iliasov2024,Canyellas2026dwave}. However, the same corner bottlenecks ($z=4$) and internal holes that localize electronic states also reduce global phase stiffness: even without thermal fluctuations, $T_A$ on the triangular gasket lies below a quarter of $\Tmf$. Including thermal phase fluctuations in Rung~B reduces $T_B$ to roughly one-eleventh of $\Tmf$ and less than a quarter of the parent's $T_B$ ($T_A/T_B \approx 2.8$ on gaskets versus $1.0\text{--}1.1$ on filled parents). The fermionic HMC runs (Rungs~P and~C0) confirm this suppression, establishing a broad regime of incoherent Cooper pairs below $\Tmf$, while at $T \ll T_{C0}$ the gauge-fixed coherent gap $\overline{|\langle \Delta_i \rangle|}$ recovers $\sim 90\%$ of the mean-field gap (unlike $\langle|\Delta_i|\rangle$, which carries $\sim\sqrt{UT}$ thermal noise). The same hierarchy holds under the sheet-rescaled and $T_{50}$ criteria.
+As shown in Fig.~\ref{fig:tbkt_summary} and Table~\ref{tab:u1}, on the finitely ramified gaskets pair formation and phase coherence move in opposite directions. At the mean-field level, the $G=4$ triangular gasket nearly doubles $\Tmf$ relative to its filled parent flake (with a smaller gain on the honeycomb gasket) because spectral decimation piles a large fraction of the single-particle levels into a narrow cluster just outside the gap edge~\cite{Iliasov2019,Iliasov2020,Iliasov2024,Canyellas2026dwave}. However, the same corner bottlenecks ($z=4$) and internal holes that localize electronic states also reduce global phase stiffness: even without thermal fluctuations, $T_A$ on the triangular gasket lies below a quarter of $\Tmf$. Including thermal phase fluctuations in Rung~B reduces $T_B$ to roughly one-eleventh of $\Tmf$ and less than a quarter of the parent's $T_B$, so thermal fluctuations cost roughly a factor of three in crossover temperature on the gaskets whereas $T_A$ and $T_B$ remain within ten percent on the filled parents. The fermionic HMC runs (Rungs~P and~C0) confirm this suppression, establishing a broad regime of incoherent Cooper pairs below $\Tmf$, while at $T \ll T_{C0}$ the gauge-fixed coherent gap $\overline{|\langle \Delta_i \rangle|}$ recovers most of the mean-field gap (unlike $\langle|\Delta_i|\rangle$, which carries $\sim\sqrt{UT}$ thermal noise). The same hierarchy holds under the sheet-rescaled and $T_{50}$ criteria.
 
 \begin{figure*}[t]
 \centering
@@ -420,7 +448,7 @@ As shown in Fig.~\ref{fig:tbkt_summary} and Table~\ref{tab:u1}, on the finitely 
 \label{fig:length_scales}
 \end{figure*}
 
-The microscopic length scales in Fig.~\ref{fig:length_scales} and Table~\ref{tab:u1} explain why Rung~B matches $T_{C0}$ on the gaskets yet falls below $T_{C0}$ on the carpet at $U=1$ ($T_B = 0.0109$ vs $T_{C0} = 0.0172$). On the filled parents and the carpet, Cooper pairs span $\xi_{\mathrm{pair}} \approx 3\text{--}10$ sites with kernel range $\xi_K \approx 4\text{--}8$, leaving only $f_{\mathrm{NN}} = 0.12\text{--}0.20$ of the phase-kernel weight on nearest neighbors. On the carpet, projecting this long-range kernel around small cutouts via Eq.~\eqref{eq:Jb_projection} generates strong bond disorder ($\mathrm{std}(J_b)/\bar{J}_b \approx 1.07$) and $14\%\text{--}15\%$ negative couplings $J_b < 0$; truncating them softens the Rung-B network by $R = \rlead/\rho_{\mathrm{harm}} = 2.03$, so that $T_{C0}/(R\,T_B) \approx 0.78$ is close to unity. When $w \lesssim \xi_{\mathrm{pair}}$, Pippard nonlocality also allows the imposed twist to slip at the contacts ($\rlead/\rho_\chi = 0.72\text{--}0.82$ at $w=3$ and $0.25\text{--}0.55$ at $w=0$ in Fig.~\ref{fig:tbkt_summary}). On the gaskets, by contrast, fractal confinement compresses $\xi_{\mathrm{pair}} \approx 1.0\text{--}1.5$ and $\xi_K \approx 1.3\text{--}1.6$ to a single bond, concentrating $f_{\mathrm{NN}} = 48\%\text{--}71\%$ onto nearest neighbors, keeping negative $J_b$ below $2\%$, and eliminating contact slip even at $w=0$. Increasing the attraction to $U=2$ compresses $\xi_{\mathrm{pair}}$ on the square lattice from $9.6$ to $1.9$ sites (Fig.~\ref{fig:length_scales}, bottom right), removing negative $J_b$ on the carpet and honeycomb gasket, bringing $R \to 0.95\text{--}1.15$, and making the stiffness independent of lead width within $2\%\text{--}5\%$ for all $w \ge 1$.
+The microscopic length scales in Fig.~\ref{fig:length_scales} and Table~\ref{tab:u1} explain why Rung~B matches $T_{C0}$ on the gaskets yet falls below $T_{C0}$ on the carpet at $U=1$. On the filled parents and the carpet, Cooper pairs and the phase kernel extend over several lattice spacings, leaving less than one-fifth of the phase-kernel weight on nearest neighbors ($f_{\mathrm{NN}}$ in Table~\ref{tab:u1}). On the carpet, projecting this long-range kernel around small cutouts via Eq.~\eqref{eq:Jb_projection} generates strong bond disorder and frustrated negative couplings $J_b < 0$ on roughly one-seventh of the bonds; truncating them softens the Rung-B network by a factor of two ($R = \rlead/\rho_{\mathrm{harm}}$ in Table~\ref{tab:u1}), which accounts for the lower Rung-B crossover relative to $T_{C0}$. When $w \lesssim \xi_{\mathrm{pair}}$, Pippard nonlocality also allows the imposed twist to slip at the contacts, as seen by comparing the $w=0$ and $w=3$ Rung-A curves against $\rho_\chi$ in Fig.~\ref{fig:tbkt_summary}. On the gaskets, by contrast, fractal confinement compresses $\xi_{\mathrm{pair}}$ and $\xi_K$ to the single-bond scale, concentrating the phase kernel onto nearest neighbors, eliminating negative couplings, and removing contact slip even for single-site leads. Increasing the attraction to $U=2$ compresses $\xi_{\mathrm{pair}}$ to fewer than two lattice spacings even on the square lattice (Fig.~\ref{fig:length_scales}, bottom right), eliminating negative $J_b$ on the carpet and honeycomb gasket, bringing $R$ close to unity across all geometries, and making the two-terminal stiffness insensitive to lead width for all $w \ge 1$.
 
 %----------------------------------------------------------------------
 \subsection{Intermediate coupling (\texorpdfstring{$U=2$}{U=2}): Four-rung hierarchy and generation scaling}
@@ -457,11 +485,11 @@ Honeycomb parent $G=0$ & 0.1315 & 0.19--0.21 & 0.1327 & 0.0806(1) & 0.0458(3) & 
 \label{fig:u2_ladder}
 \end{figure*}
 
-Three physical conclusions follow from Fig.~\ref{fig:u2_ladder} and Table~\ref{tab:u2}. First, on the triangular and honeycomb gaskets ($G=3, 4$), Rungs~B, P, and~C agree within $10\%\text{--}15\%$ ($T_P/T_B \in [0.81, 1.02]$, $T_C/T_B \in [0.86, 1.04]$), confirming that the nearest-neighbor BdG-XY model accurately captures thermal phase fluctuations when Cooper pairs are compressed to the bond scale. At $U=2$, however, the gaskets lose their mean-field pairing advantage ($\Tmf \approx 0.18\text{--}0.23$ across all systems once $U$ exceeds the sub-cluster spacing), while the neck bottleneck still suppresses $T_C$ on the $G=4$ triangular gasket to one-third of its parent and one-tenth of $\Tmf$.
+Three physical conclusions follow from Fig.~\ref{fig:u2_ladder} and Table~\ref{tab:u2}. First, on the triangular and honeycomb gaskets ($G=3, 4$), Rungs~B, P, and~C agree within roughly $15\%$, confirming that the nearest-neighbor BdG-XY model accurately captures thermal phase fluctuations when Cooper pairs are compressed to the bond scale. At $U=2$, however, the gaskets lose their mean-field pairing advantage once $U$ exceeds the local sub-cluster spacing, while the neck bottleneck still suppresses $T_C$ on the $G=4$ triangular gasket to about one-third of its parent and one-tenth of $\Tmf$.
 
-Second, on the carpet and filled parent lattices, Rung~B overestimates the fermionic crossover: Rungs~P and~C cross $2T/\pi$ at $0.49\text{--}0.76$ of $T_B$ (Fig.~\ref{fig:u2_ladder}, bottom row). Because contact slip and negative bonds are negligible at $U=2$ ($R \approx 0.95\text{--}1.01$) and $\rho_P, \rho_C$ match $\rho_B$ as $T \to 0$, this reduction stems from anharmonicity beyond linear response~\cite{BTC04,EM10}: at large phase gradients and near vortex cores, $F[a_0 e^{i\theta}]$ flattens earlier than a cosine potential extrapolated from infinitesimal twists.
+Second, on the carpet and filled parent lattices, Rung~B overestimates the fermionic crossover, with Rungs~P and~C crossing $2T/\pi$ well below $T_B$ (Table~\ref{tab:u2} and Fig.~\ref{fig:u2_ladder}, bottom row). Because contact slip and negative bonds are negligible at $U=2$ and $\rho_P, \rho_C$ match $\rho_B$ as $T \to 0$, this reduction stems from anharmonicity beyond linear response~\cite{BTC04,EM10}: at large phase gradients and near vortex cores, $F[a_0 e^{i\theta}]$ flattens earlier than a cosine potential extrapolated from infinitesimal twists.
 
-Third, freeing the pairing amplitudes from Rung~P to Rung~C shifts the gasket crossover by less than $16\%$, but raises the crossover on the carpet and filled lattices by $13\%\text{--}29\%$ ($T_C/T_P = 1.28$ on the carpet and $1.29$ on the square). Because the crossover on the carpet and square occurs at higher reduced temperature ($T_\times/\Tmf \approx 0.70$, where $a_0/\sqrt{UT_\times} \approx 0.52\text{--}0.56$), thermal amplitude fluctuations skew $\langle|\Delta_i|^2\rangle$ above $a_{0,i}^2$ and stiffen the phase response. Free-boundary HMC runs further confirm that short-wavelength amplitude noise in Rung~C is removed by the heat-kernel filter $W_\ell = e^{-\ell^2\mathcal{L}/4}$ ($\ell = 2$), collapsing the filtered lacuna vortex densities of Rungs~P and~C on the gaskets and confirming lower vortex density and higher condensate fraction in Rung~C on the carpet.
+Third, freeing the pairing amplitudes from Rung~P to Rung~C has only a mild effect on the gaskets, but systematically raises the crossover temperature on the carpet and filled lattices (Table~\ref{tab:u2}). Because the crossover on the carpet and regular lattices occurs at a much higher fraction of $\Tmf$ where the saddle-point gap is moderate compared with thermal amplitude fluctuations, modulus fluctuations skew $\langle|\Delta_i|^2\rangle$ above $a_{0,i}^2$ and stiffen the phase response. Free-boundary HMC runs further confirm that short-wavelength amplitude noise in Rung~C is removed by the heat-kernel filter $W_\ell = e^{-\ell^2\mathcal{L}/4}$ ($\ell = 2$), collapsing the filtered lacuna vortex densities of Rungs~P and~C on the gaskets and confirming lower vortex density and higher condensate fraction in Rung~C on the carpet.
 
 \begin{figure*}[t]
 \centering
@@ -470,7 +498,7 @@ Third, freeing the pairing amplitudes from Rung~P to Rung~C shifts the gasket cr
 \label{fig:u2_sizes}
 \end{figure*}
 
-Tracking the gasket crossover across $G=3 \to 4 \to 5$ at $U=2$ (Fig.~\ref{fig:u2_sizes} and Table~\ref{tab:u2}) connects the microscopic hierarchy to the power-law decay~\eqref{eq:Tstar_powerlaw}: $T_B$ drops by $\times 0.85$ and $\times 0.76$ on the triangular gasket ($T_C$ by $\times 0.82$ from $G=3 \to 4$), and by $\times 0.72$ and $\times 0.67$ on the honeycomb gasket ($T_C$ by $\times 0.72$), approaching the uniform-XY factors $2^{-0.50} \approx 0.71$ and $2^{-0.56} \approx 0.68$ and confirming that the fermionic coherence scale vanishes as $G \to \infty$~\cite{GMA80,GAM83,Vallat1991,MB10}.
+Tracking the gasket crossover across $G=3 \to 4 \to 5$ at $U=2$ (Fig.~\ref{fig:u2_sizes} and Table~\ref{tab:u2}) connects the microscopic hierarchy to the power-law decay~\eqref{eq:Tstar_powerlaw}: across both gasket families and across Rungs~B, P, and~C, each successive generation reduces the crossover temperature at a rate approaching the uniform-XY scaling factors $2^{-x}$, confirming that the fermionic coherence scale vanishes as $G \to \infty$~\cite{GMA80,GAM83,Vallat1991,MB10}.
 
 %======================================================================
 \section{Vortex Hierarchy, Escape Barriers, and Current Relaxation}
@@ -494,7 +522,7 @@ Relaxing single-vortex states from the harmonic vortex field $E_h(f) = 2\pi^2 [(
 B_{\mathrm{esc}}(h) = \min_{h' \neq h} B(h \to h'),
 \label{eq:escape_barrier}
 \end{equation}
-the exterior entry barrier $E_{\mathrm{in}}(h) \ge E_1(h) + B_{\mathrm{esc}}(h)$, and the rigid-contact crossing barrier $E_{\mathrm{cross}}$ (reproducing the Peierls barriers of $0.200\,J$ on the square lattice~\cite{HW} and $0.044\,J$ on the triangular lattice~\cite{Lobb,YS}).
+the exterior entry barrier $E_{\mathrm{in}}(h) \ge E_1(h) + B_{\mathrm{esc}}(h)$, and the rigid-contact crossing barrier $E_{\mathrm{cross}}$~\cite{HW,Lobb,YS}.
 
 \begin{figure*}[t]
 \centering
@@ -503,12 +531,12 @@ the exterior entry barrier $E_{\mathrm{in}}(h) \ge E_1(h) + B_{\mathrm{esc}}(h)$
 \label{fig:vortex_energies}
 \end{figure*}
 
-As shown in Fig.~\ref{fig:vortex_energies} (top row), fractal lacunae form an inverted energy funnel versus perimeter $P$: $E_1(P) \propto P^{-0.8}$ decreases with perimeter while $B_{\mathrm{esc}}(P)$ increases monotonically (reaching $3.85\,\bar{J}$ at $P=48$ on the $U=1$ BdG triangular gasket and $2.34\,\bar{J}$ at $P=96$ on the honeycomb gasket), and the sample crossing barrier saturates with generation ($E_{\mathrm{cross}} = 4.60, 4.34, 4.20\,J$ for uniform triangular $G=3,4,5$, or $5.68\,\bar{J}$ and $3.07\,\bar{J}$ with $U=1$ BdG couplings on triangular and honeycomb $G=4$, versus $17\text{--}18\,\bar{J}$ on the filled parents). Tracking committed basin-to-basin escape events in temperature-scaled Metropolis dynamics ($\delta^2 \propto T/J_{\mathrm{ref}}$) confirms that the dynamical Arrhenius escape slopes match all $14$ static barriers $B_{\mathrm{esc}} > 1\,\bar{J}$ within $\sim 10\%$. Evaluating the finite-window two-terminal stiffness over blocks of duration $\tau$ sweeps,
+As shown in the top row of Fig.~\ref{fig:vortex_energies}, the fractal holes form an energy hierarchy ordered by their perimeter $P$: as $P$ increases, the single-vortex creation energy $E_1(P)$ drops roughly as $P^{-0.8}$ while the escape barrier $B_{\mathrm{esc}}(P)$ grows, turning the largest central lacuna into the deepest vortex trap on the flake. In Monte Carlo dynamics, the thermal escape rates from individual lacunae follow Arrhenius activation with slopes matching these static saddle barriers. Measuring the two-terminal stiffness over finite observation windows of duration $\tau$ sweeps,
 \begin{equation}
 \rho(T,\tau) = \frac{1}{g_0}\Bigl[\langle D_2 \rangle - \beta\,\bigl\langle \operatorname{Var}_\tau(J_1) \bigr\rangle\Bigr],
 \label{eq:rho_window}
 \end{equation}
-and subtracting the analytical harmonic spin-wave window excess yields the vortex-driven current relaxation time $\tau_r(T)$. Near $T_B$, $\tau_r(T)$ has activation slope $3.73 \pm 0.14\,\bar{J}$ on the triangular gasket and $2.31 \pm 0.07\,\bar{J}$ on the honeycomb gasket, matching $B_{\mathrm{esc}}$ of the largest central lacuna ($3.85\,\bar{J}$ and $2.34\,\bar{J}$) well below the entry ($5.38\,\bar{J}$, $3.11\,\bar{J}$) and crossing ($5.68\,\bar{J}$, $3.07\,\bar{J}$) barriers. Escape from the central trap thus rate-limits current decay, and because $B_{\mathrm{esc}}/T_B \approx 3\text{--}8 \ll \ln(\nu t_{\mathrm{exp}}) \approx 25\text{--}30$, $\rho(T,\tau)$ relaxes to equilibrium within $10^4\text{--}5\times 10^4$ sweeps ($\sim 10^5\,\hbar/t$ in RSJ units~\cite{AH69,HTB90}), far below dc measurement timescales.
+shows that near $T_B$ the current relaxation time is governed by the escape barrier of the largest central lacuna rather than by vortex entry from the outer boundary or bulk pair creation. Even in this deepest trap, however, the barrier remains only a few times the thermal scale $T_B$, so a trapped vortex configuration relaxes to equilibrium within $\sim 10^4$ Monte Carlo sweeps---orders of magnitude faster than macroscopic dc measurement timescales~\cite{AH69,HTB90}.
 
 \begin{table*}[t]
 \caption{Single-vortex creation energies $E_1$ and exterior escape barriers $B_{\mathrm{out}}$ [in units of $\bar{J}(T)$] at $U=2$ across Rung~B (XY with $J_b$), Rung~P (frozen-amplitude BdG), and Rung~C (full BdG), where $n$ is the number of metastable lacunae of perimeter $P$ (out of $9, 3, 1$ on gaskets and $8, 8, 1$ on the carpet).}
@@ -518,15 +546,15 @@ and subtracting the analytical harmonic spin-wave window excess yields the vorte
  & & \multicolumn{2}{c}{XY with $J_b$ (Rung B)} & \multicolumn{2}{c}{BdG frozen amp.\ (Rung P)} & \multicolumn{2}{c}{BdG full (Rung C)} \\
 System & $P$ & $E_1$ & $B_{\mathrm{out}}$ & $n$, $E_1$ & $B_{\mathrm{out}}$ & $n$, $E_1$ & $B_{\mathrm{out}}$ \\
 \colrule
-Triangular gasket $G=4$, $T=0.0245$ & 12 & 4.74 & 1.70 & 9, 4.98 & 0.75--0.95 & 3, 4.33 & 0.01--1.74 \\
+Triangular $G=4$ ($T=0.0245$) & 12 & 4.74 & 1.70 & 9, 4.98 & 0.75--0.95 & 3, 4.33 & 0.01--1.74 \\
  & 24 & 2.74 & 2.99 & 3, 2.87 & 2.04 & 3, 2.81 & 0.59--1.33 \\
  & 48 & 1.55 & 3.82 & 1, 1.63 & 2.90 & 1, 1.62 & 1.34 \\
 \colrule
-Sierpi\'nski carpet $G=3$, $T=0.0511$ & 8 & 5.07 & 0.97 & 4, 4.13 & 0.60--0.62 & 0, \phantom{0.0}-- & -- \\
+Carpet $G=3$ ($T=0.0511$) & 8 & 5.07 & 0.97 & 4, 4.13 & 0.60--0.62 & 0, \phantom{0.0}-- & -- \\
  & 16 & 2.93 & 1.73 & 8, 3.04 & 0.52--0.56 & 8, 3.02 & 0.11--0.24 \\
  & 40 & 1.96 & 3.51 & 1, 1.97 & 2.68 & 1, 1.97 & 2.17 \\
 \colrule
-Honeycomb gasket $G=4$, $T=0.0285$ & 24 & 1.47 & 1.54 & 9, 1.76 & 0.35--0.42 & 9, 1.74 & 0.24--1.68 \\
+Honeycomb $G=4$ ($T=0.0285$) & 24 & 1.47 & 1.54 & 9, 1.76 & 0.35--0.42 & 9, 1.74 & 0.24--1.68 \\
  & 48 & 0.84 & 1.99 & 3, 1.01 & 0.81--0.83 & 3, 1.00 & 0.68--1.08 \\
  & 96 & 0.47 & 2.25 & 1, 0.57 & 1.12 & 1, 0.57 & 1.45 \\
 \end{tabular}
@@ -535,8 +563,8 @@ Honeycomb gasket $G=4$, $T=0.0285$ & 24 & 1.47 & 1.54 & 9, 1.76 & 0.35--0.42 & 9
 
 Relaxing single-vortex states and escape strings directly on the static-path BdG functional $F[\Delta]$ [Eq.~\eqref{eq:F_static_path}] at $U=1$ (Fig.~\ref{fig:vortex_energies}, bottom row) and $U=2$ (Table~\ref{tab:u2barriers}) reveals two effects absent from the rigid-spin XY model:
 \begin{enumerate}
-\item \emph{Nonlocal kernel smoothing:} Even with frozen amplitudes (Rung~P), $F[a_0 e^{i\theta}]$ eliminates vortex metastability on elementary plaquettes and open filled parent flakes, and at $U=2$ lowers the exterior escape barrier $B_{\mathrm{out}}$ across all lacuna sizes by a factor of $1.3\text{--}4$ relative to XY (Table~\ref{tab:u2barriers}) while keeping $E_1$ nearly unchanged.
-\item \emph{Amplitude-assisted escape across bottlenecks:} Allowing $|\Delta_i|$ to relax in $F[\Delta]$ (Rung~C) strongly reduces vortex trapping. At $U=1$ (Fig.~\ref{fig:vortex_energies}, bottom), smaller gasket holes ($P \le 12$ on triangular, $P \le 24$ on honeycomb) and the central $P=40$ carpet hole (at $T=0.010 < T_B$) lose metastability altogether, while in the surviving gasket traps $B_{\mathrm{out}}$ drops by a factor of $3\text{--}16$ (from $3.06$ and $3.85\,\bar{J}$ to $0.19$ and $0.82\,\bar{J}$ on the triangular gasket). At $U=2$ (Table~\ref{tab:u2barriers}), amplitude relaxation similarly destabilizes all $P=8$ carpet holes and six of nine $P=12$ triangular holes while reducing $B_{\mathrm{out}}$ of the central triangular and carpet lacunae to $1.34\,\bar{J}$ and $2.17\,\bar{J}$. At the saddle point, $|\Delta_i|$ on the corner articulation site softens to $20\%\text{--}45\%$ of $a_{0,i}$, letting the vortex slip out through a self-induced weak link rather than rotating rigid spins through $\pi$.
+\item \emph{Nonlocal kernel smoothing:} Even with frozen amplitudes (Rung~P), $F[a_0 e^{i\theta}]$ eliminates vortex metastability on elementary plaquettes and open filled parent flakes, and at $U=2$ systematically lowers the exterior escape barrier $B_{\mathrm{out}}$ across all lacuna sizes relative to XY (Table~\ref{tab:u2barriers}) while keeping $E_1$ nearly unchanged.
+\item \emph{Amplitude-assisted escape across bottlenecks:} Allowing $|\Delta_i|$ to relax in $F[\Delta]$ (Rung~C) strongly reduces vortex trapping. At $U=1$ (Fig.~\ref{fig:vortex_energies}, bottom), the smaller gasket holes and the central carpet hole near $T_B$ lose metastability altogether, while in the surviving large gasket traps $B_{\mathrm{out}}$ drops by up to an order of magnitude relative to the XY barrier. At $U=2$ (Table~\ref{tab:u2barriers}), amplitude relaxation similarly destabilizes the smallest lacunae and substantially lowers $B_{\mathrm{out}}$ in the central holes. At the saddle point of the escape path, $|\Delta_i|$ on the corner articulation vertex softens to a fraction of its vacuum value $a_{0,i}$, letting the vortex slip out through a self-induced weak link rather than rotating rigid spins through $\pi$.
 \end{enumerate}
 
 %======================================================================
@@ -563,7 +591,7 @@ In this Appendix we present the complete derivation connecting the microscopic a
 
 In the grand-canonical ensemble, the attractive Hubbard Hamiltonian takes the form
 \begin{equation}
-\hat{H} - \mu \hat{N} = \sum_{ij}\sum_{\sigma\sigma'} \hat{c}_{i\sigma}^\dagger h_{ij}^{\sigma\sigma'} \hat{c}_{j\sigma'} - U \sum_i \hat{n}_{i\uparrow}\hat{n}_{i\downarrow}, \qquad U > 0,
+\hat{H} - \mu \hat{N} = \sum_{ij}\sum_{\sigma\sigma'} \hat{c}_{i\sigma}^\dagger h_{ij}^{\sigma\sigma'} \hat{c}_{j\sigma'} - U \sum_i \hat{n}_{i\uparrow}\hat{n}_{i\downarrow}, \quad U > 0,
 \label{eq:A1}
 \end{equation}
 where the one-particle matrix $h_{ij}^{\sigma\sigma'}$ contains the chemical potential and may also incorporate hopping, on-site Hartree shifts, disorder, Zeeman fields, or spin--orbit coupling. The grand-canonical partition function is given by the functional integral over Grassmann fields $(\bar{c}, c)$,
@@ -573,14 +601,20 @@ Z = \Tr e^{-\beta(\hat{H}-\mu\hat{N})} = \int \mathcal{D}[\bar{c},c]\, e^{-S[\ba
 \end{equation}
 with Euclidean action
 \begin{equation}
-S[\bar{c},c] = \int_0^\beta d\tau \left[ \sum_{ij}\sum_{\sigma\sigma'} \bar{c}_{i\sigma}\left(\delta_{ij}\delta_{\sigma\sigma'}\partial_\tau + h_{ij}^{\sigma\sigma'}\right)c_{j\sigma'} - U\sum_i \bar{c}_{i\uparrow}\bar{c}_{i\downarrow}c_{i\downarrow}c_{i\uparrow} \right],
+\begin{aligned}
+S[\bar{c},c] = \int_0^\beta d\tau \Bigg[ & \sum_{ij}\sum_{\sigma\sigma'} \bar{c}_{i\sigma}\left(\delta_{ij}\delta_{\sigma\sigma'}\partial_\tau + h_{ij}^{\sigma\sigma'}\right)c_{j\sigma'} \\
+& - U\sum_i \bar{c}_{i\uparrow}\bar{c}_{i\downarrow}c_{i\downarrow}c_{i\uparrow} \Bigg],
+\end{aligned}
 \label{eq:A3}
 \end{equation}
 where $\beta = (k_B T)^{-1}$.
 
 Introducing a complex auxiliary Hubbard--Stratonovich pairing field $\Delta_i(\tau)$ on each lattice site decouples the quartic attraction. Up to a field-independent normalization factor $\mathcal{N}$,
 \begin{equation}
-\exp\left[ U \int_0^\beta d\tau\, \bar{c}_{i\uparrow}\bar{c}_{i\downarrow}c_{i\downarrow}c_{i\uparrow} \right] = \mathcal{N} \int \mathcal{D}[\Delta_i,\Delta_i^*] \exp\left\{ -\int_0^\beta d\tau \left[ \frac{|\Delta_i|^2}{U} - \Delta_i \bar{c}_{i\uparrow}\bar{c}_{i\downarrow} - \Delta_i^* c_{i\downarrow}c_{i\uparrow} \right] \right\}.
+\begin{aligned}
+\exp\left[ U \int_0^\beta d\tau\, \bar{c}_{i\uparrow}\bar{c}_{i\downarrow}c_{i\downarrow}c_{i\uparrow} \right] ={}& \mathcal{N} \int \mathcal{D}[\Delta_i,\Delta_i^*] \\
+\times \exp\Bigg\{ -\int_0^\beta d\tau \Bigg[ \frac{|\Delta_i|^2}{U} & - \Delta_i \bar{c}_{i\uparrow}\bar{c}_{i\downarrow} - \Delta_i^* c_{i\downarrow}c_{i\uparrow} \Bigg] \Bigg\}.
+\end{aligned}
 \label{eq:A4}
 \end{equation}
 The partition function then becomes
@@ -590,7 +624,11 @@ Z = \int \mathcal{D}[\bar{c},c,\Delta,\Delta^*]\, e^{-S_{\mathrm{HS}}},
 \end{equation}
 with the Hubbard--Stratonovich action
 \begin{equation}
-S_{\mathrm{HS}} = \int_0^\beta d\tau \left[ \sum_{ij}\sum_{\sigma\sigma'} \bar{c}_{i\sigma}\left(\delta_{ij}\delta_{\sigma\sigma'}\partial_\tau + h_{ij}^{\sigma\sigma'}\right)c_{j\sigma'} + \sum_i \frac{|\Delta_i|^2}{U} - \sum_i \left(\Delta_i \bar{c}_{i\uparrow}\bar{c}_{i\downarrow} + \Delta_i^* c_{i\downarrow}c_{i\uparrow}\right) \right].
+\begin{aligned}
+S_{\mathrm{HS}} = \int_0^\beta d\tau \Bigg[ & \sum_{ij}\sum_{\sigma\sigma'} \bar{c}_{i\sigma}\left(\delta_{ij}\delta_{\sigma\sigma'}\partial_\tau + h_{ij}^{\sigma\sigma'}\right)c_{j\sigma'} \\
+& + \sum_i \frac{|\Delta_i|^2}{U} \\
+& - \sum_i \left(\Delta_i \bar{c}_{i\uparrow}\bar{c}_{i\downarrow} + \Delta_i^* c_{i\downarrow}c_{i\uparrow}\right) \Bigg].
+\end{aligned}
 \label{eq:A6}
 \end{equation}
 
@@ -613,7 +651,10 @@ Z = \int \mathcal{D}[\Delta,\Delta^*]\, e^{-S_{\mathrm{eff}}[\Delta,\Delta^*]},
 \end{equation}
 governed by the effective bosonic action
 \begin{equation}
-S_{\mathrm{eff}}[\Delta,\Delta^*] = \int_0^\beta d\tau \sum_i \frac{|\Delta_i|^2}{U} - \frac{1}{2}\Tr\ln\left[-G^{-1}[\Delta]\right] + S_{\mathrm{const}}.
+\begin{aligned}
+S_{\mathrm{eff}}[\Delta,\Delta^*] ={}& \int_0^\beta d\tau \sum_i \frac{|\Delta_i|^2}{U} \\
+& - \frac{1}{2}\Tr\ln\left[-G^{-1}[\Delta]\right] + S_{\mathrm{const}}.
+\end{aligned}
 \label{eq:A10}
 \end{equation}
 
@@ -708,11 +749,15 @@ G^{-1} = G_0^{-1} - \delta H_{\mathrm{BdG}}.
 \label{eq:A27}
 \end{equation}
 Expanding the fermionic functional determinant to second order in $\delta H_{\mathrm{BdG}}$ gives
-\begin{align}
--\frac{1}{2}\Tr\ln\left[-G^{-1}\right] &= -\frac{1}{2}\Tr\ln\left[-G_0^{-1}\right] - \frac{1}{2}\Tr\ln\left(1 - G_0 \delta H_{\mathrm{BdG}}\right) \nonumber \\
-&= -\frac{1}{2}\Tr\ln\left[-G_0^{-1}\right] + \frac{1}{2}\Tr\left(G_0 \delta H_{\mathrm{BdG}}\right) + \frac{1}{4}\Tr\left(G_0 \delta H_{\mathrm{BdG}} G_0 \delta H_{\mathrm{BdG}}\right) + \mathcal{O}(\alpha^3).
+\begin{equation}
+\begin{aligned}
+-\frac{1}{2}\Tr\ln\left[-G^{-1}\right] \\
+&\hspace{-3.5em}= -\frac{1}{2}\Tr\ln\left[-G_0^{-1}\right] - \frac{1}{2}\Tr\ln\left(1 - G_0 \delta H_{\mathrm{BdG}}\right) \\
+&\hspace{-3.5em}= -\frac{1}{2}\Tr\ln\left[-G_0^{-1}\right] + \frac{1}{2}\Tr\left(G_0 \delta H_{\mathrm{BdG}}\right) \\
+&\hspace{-2.5em} + \frac{1}{4}\Tr\left(G_0 \delta H_{\mathrm{BdG}} G_0 \delta H_{\mathrm{BdG}}\right) + \mathcal{O}(\alpha^3).
+\end{aligned}
 \label{eq:A28}
-\end{align}
+\end{equation}
 The term linear in the bond phases is
 \begin{equation}
 S_f^{(1)} = \frac{1}{2}\sum_b \alpha_b \Tr(G_0 V_b).
@@ -746,12 +791,19 @@ H_{\mathrm{BdG}}^{(0)} |n\rangle = E_n |n\rangle, \qquad G_0(i\omega_\ell) = \su
 \end{equation}
 evaluating the trace over the full doubled BdG spectrum gives the diamagnetic action
 \begin{equation}
-S_{\mathrm{dia}}^{(2)} = \frac{1}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_{\omega_\ell, n} \frac{\langle n|W_{bb'}|n\rangle}{i\omega_\ell - E_n} = \frac{\beta}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_n f(E_n)\langle n|W_{bb'}|n\rangle,
+\begin{aligned}
+S_{\mathrm{dia}}^{(2)} &= \frac{1}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_{\omega_\ell, n} \frac{\langle n|W_{bb'}|n\rangle}{i\omega_\ell - E_n} \\
+&= \frac{\beta}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_n f(E_n)\langle n|W_{bb'}|n\rangle,
+\end{aligned}
 \label{eq:A34}
 \end{equation}
 where the standard convergence factor $e^{i\omega_\ell 0^+}$ is understood in the single-propagator Matsubara sum. Similarly, the paramagnetic bubble evaluates to
 \begin{equation}
-S_{\mathrm{para}}^{(2)} = \frac{1}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_{\omega_\ell, n, m} \frac{\langle n|V_b|m\rangle\langle m|V_{b'}|n\rangle}{(i\omega_\ell - E_n)(i\omega_\ell - E_m)} = \frac{\beta}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_{n,m} \frac{f(E_n) - f(E_m)}{E_n - E_m} \langle n|V_b|m\rangle\langle m|V_{b'}|n\rangle.
+\begin{aligned}
+S_{\mathrm{para}}^{(2)} &= \frac{1}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_{\omega_\ell, n, m} \frac{\langle n|V_b|m\rangle\langle m|V_{b'}|n\rangle}{(i\omega_\ell - E_n)(i\omega_\ell - E_m)} \\
+&= \frac{\beta}{4}\sum_{bb'}\alpha_b \alpha_{b'} \sum_{n,m} \frac{f(E_n) - f(E_m)}{E_n - E_m} \\
+&\qquad\qquad\qquad \times \langle n|V_b|m\rangle\langle m|V_{b'}|n\rangle.
+\end{aligned}
 \label{eq:A35}
 \end{equation}
 Here $f(E)$ is the Fermi--Dirac distribution,
@@ -789,7 +841,10 @@ h_b(\alpha_b) = -t_{ij}\left( T_{ij}\otimes \tau_3 e^{-i\tau_3 \alpha_b} + T_{ji
 \end{equation}
 Differentiating with respect to $\alpha_b$ at $\alpha_b = 0$ yields
 \begin{equation}
-V_b = i t_{ij} (T_{ij} - T_{ji}) \otimes \tau_0 \otimes \sigma_0, \qquad W_b = t_{ij} (T_{ij} + T_{ji}) \otimes \tau_3 \otimes \sigma_0,
+\begin{aligned}
+V_b &= i t_{ij} (T_{ij} - T_{ji}) \otimes \tau_0 \otimes \sigma_0, \\
+W_b &= t_{ij} (T_{ij} + T_{ji}) \otimes \tau_3 \otimes \sigma_0,
+\end{aligned}
 \label{eq:A43}
 \end{equation}
 where for independent bond phases
@@ -799,13 +854,15 @@ W_{bb'} = \delta_{bb'} W_b.
 \end{equation}
 On-site chemical potential, Hartree, disorder, and Zeeman terms carry no spatial Peierls phase and thus do not contribute directly to $V_b$ or $W_b$. Writing a normalized BdG eigenstate in particle--hole and spin components as
 \begin{equation}
-|n\rangle = \begin{pmatrix} u^n \\ v^n \end{pmatrix}, \qquad u^n = \begin{pmatrix} u_\uparrow^n \\ u_\downarrow^n \end{pmatrix}, \qquad v^n = \begin{pmatrix} v_\uparrow^n \\ v_\downarrow^n \end{pmatrix},
+|n\rangle = \begin{pmatrix} u^n \\ v^n \end{pmatrix}, \quad u^n = \begin{pmatrix} u_\uparrow^n \\ u_\downarrow^n \end{pmatrix}, \quad v^n = \begin{pmatrix} v_\uparrow^n \\ v_\downarrow^n \end{pmatrix},
 \label{eq:A45}
 \end{equation}
 the matrix elements of the paramagnetic current vertex and diamagnetic kinetic operator between eigenstates $|n\rangle$ and $|m\rangle$ are
 \begin{align}
-V_b^{nm} \equiv \langle n|V_b|m\rangle &= i t_{ij} \sum_\sigma \left( u_{i\sigma}^{n*} u_{j\sigma}^m - u_{j\sigma}^{n*} u_{i\sigma}^m + v_{i\sigma}^{n*} v_{j\sigma}^m - v_{j\sigma}^{n*} v_{i\sigma}^m \right), \label{eq:A46} \\
-W_b^{nm} \equiv \langle n|W_b|m\rangle &= t_{ij} \sum_\sigma \left( u_{i\sigma}^{n*} u_{j\sigma}^m + u_{j\sigma}^{n*} u_{i\sigma}^m - v_{i\sigma}^{n*} v_{j\sigma}^m - v_{j\sigma}^{n*} v_{i\sigma}^m \right). \label{eq:A47}
+V_b^{nm} \equiv \langle n|V_b|m\rangle &= i t_{ij} \sum_\sigma \Bigl( u_{i\sigma}^{n*} u_{j\sigma}^m - u_{j\sigma}^{n*} u_{i\sigma}^m \nonumber \\
+&\qquad\qquad + v_{i\sigma}^{n*} v_{j\sigma}^m - v_{j\sigma}^{n*} v_{i\sigma}^m \Bigr), \label{eq:A46} \\
+W_b^{nm} \equiv \langle n|W_b|m\rangle &= t_{ij} \sum_\sigma \Bigl( u_{i\sigma}^{n*} u_{j\sigma}^m + u_{j\sigma}^{n*} u_{i\sigma}^m \nonumber \\
+&\qquad\qquad - v_{i\sigma}^{n*} v_{j\sigma}^m - v_{j\sigma}^{n*} v_{i\sigma}^m \Bigr). \label{eq:A47}
 \end{align}
 Substituting these matrix elements into Eqs.~\eqref{eq:A34} and~\eqref{eq:A35}, the diamagnetic and paramagnetic blocks of the electronic-phase bond Hessian for bonds $b = (i,j)$ and $b' = (k,l)$ take the final forms
 \begin{align}
@@ -842,12 +899,15 @@ K^{(\varphi)} = \frac{1}{4} K^{(\alpha)}.
 
 At zero external field, the second-order change of the grand potential under an arbitrary static site-phase deformation $\bm{\theta}$ is
 \begin{equation}
-\Omega[\bm{\theta}] - \Omega[0] = \frac{1}{2}\bm{\alpha}^T K^{(\alpha)} \bm{\alpha} = \frac{1}{8}(B\bm{\theta})^T K^{(\alpha)} (B\bm{\theta}) = \frac{1}{2}\bm{\theta}^T L \bm{\theta},
+\begin{aligned}
+\Omega[\bm{\theta}] - \Omega[0] &= \frac{1}{2}\bm{\alpha}^T K^{(\alpha)} \bm{\alpha} = \frac{1}{8}(B\bm{\theta})^T K^{(\alpha)} (B\bm{\theta}) \\
+&= \frac{1}{2}\bm{\theta}^T L \bm{\theta},
+\end{aligned}
 \label{eq:A54}
 \end{equation}
 where the site-space phase Hessian (Laplacian) matrix $L$ is given by
 \begin{equation}
-L = B^T K^{(\varphi)} B = \frac{1}{4} B^T K^{(\alpha)} B, \qquad L_{ij} = \left.\frac{\partial^2 \Omega_{\mathrm{BdG}}}{\partial \theta_i \partial \theta_j}\right|_{\bm{\theta}=0}.
+L = B^T K^{(\varphi)} B = \frac{1}{4} B^T K^{(\alpha)} B, \quad L_{ij} = \left.\frac{\partial^2 \Omega_{\mathrm{BdG}}}{\partial \theta_i \partial \theta_j}\right|_{\bm{\theta}=0}.
 \label{eq:A55}
 \end{equation}
 Because any row of the incidence matrix $B$ sums to zero ($B\bm{1} = 0$), global $U(1)$ phase rotation invariance is automatically satisfied:
@@ -858,12 +918,18 @@ L\bm{1} = 0 \implies \sum_j L_{ij} = 0.
 
 If one matches the quadratic BdG phase energy~\eqref{eq:A54} directly to the harmonic expansion of a general classical XY Hamiltonian,
 \begin{equation}
-H_{\mathrm{XY}} = -\sum_{i<j} J_{ij}\cos(\theta_i - \theta_j) = \mathrm{const} + \frac{1}{2}\sum_{i<j} J_{ij}(\theta_i - \theta_j)^2 + \mathcal{O}(\theta^4),
+\begin{aligned}
+H_{\mathrm{XY}} &= -\sum_{i<j} J_{ij}\cos(\theta_i - \theta_j) \\
+&= \mathrm{const} + \frac{1}{2}\sum_{i<j} J_{ij}(\theta_i - \theta_j)^2 + \mathcal{O}(\theta^4),
+\end{aligned}
 \label{eq:A57}
 \end{equation}
 the off-diagonal elements of the site-space Laplacian define the formal harmonic couplings
 \begin{equation}
-J_{ij}^{\mathrm{harm}} = -L_{ij} = -\frac{1}{4}\left[ B^T K^{(\alpha)} B \right]_{ij} \quad (i \neq j), \qquad L_{ii} = \sum_{j \neq i} J_{ij}^{\mathrm{harm}}.
+\begin{aligned}
+J_{ij}^{\mathrm{harm}} &= -L_{ij} = -\frac{1}{4}\left[ B^T K^{(\alpha)} B \right]_{ij} \quad (i \neq j), \\
+L_{ii} &= \sum_{j \neq i} J_{ij}^{\mathrm{harm}}.
+\end{aligned}
 \label{eq:A58}
 \end{equation}
 As discussed in Sec.~\ref{subsec:four_rungs}, inserting the nonlocal couplings $J_{ij}^{\mathrm{harm}}$ directly into Eq.~\eqref{eq:A57} artificially suppresses the stiffness when $\xi_{\mathrm{pair}} > 1$; Rung~B therefore projects the bond Hessian onto nearest-neighbor couplings $J_b(T)$ via Eq.~\eqref{eq:Jb_projection}.
@@ -1070,7 +1136,7 @@ S.~Kumar and P.~Majumdar, A travelling cluster approximation for lattice fermion
 S.~Duane, A.\,D.~Kennedy, B.\,J.~Pendleton, and D.~Roweth, Hybrid Monte Carlo, Phys.\ Lett.\ B \textbf{195}, 216 (1987).
 
 \bibitem{Nea11}
-R.\,M.~Neal, MCMC using Hamiltonian dynamics, in \emph{Handbook of Markov Chain Monte Carlo}, edited by S.~Brooks, A.~Gelman, G.\,L.~Jones, and X.-L.~Meng (CRC Press, Boca Raton, FL, 2011), Chap.~5, pp.~113--162.
+R.\,M.~Neal, MCMC using Hamiltonian dynamics, in \emph{Handbook of Markov Chain Monte Carlo}, edited by S.~Brooks, A.~Gelman, G.\,L.~Jones, and X.-L.~Meng (CRC Press, Boca Raton, FL, 2011), Chap.~5, pp. 113--162.
 
 \bibitem{Wol89}
 U.~Wolff, Collective Monte Carlo updating for spin systems, Phys.\ Rev.\ Lett.\ \textbf{62}, 361 (1989).
@@ -1121,7 +1187,7 @@ P.~H\"anggi, P.~Talkner, and M.~Borkovec, Reaction-rate theory: Fifty years afte
 B.\,B.~Mandelbrot, \emph{The Fractal Geometry of Nature} (W.\,H.~Freeman, San Francisco, 1982).
 
 \bibitem{Akkermans2012}
-E.~Akkermans, Statistical mechanics and quantum fields on fractals, in \emph{Fractal Geometry and Dynamical Systems in Pure and Applied Mathematics~II: Fractals in Applied Mathematics}, edited by D.~Carf\`i, M.\,L.~Lapidus, E.\,P.\,J.~Pearse, and M.~van~Frankenhuijsen, Contemporary Mathematics Vol.~601 (American Mathematical Society, Providence, RI, 2013), pp.~1--21.
+E.~Akkermans, Statistical mechanics and quantum fields on fractals, in \emph{Fractal Geometry and Dynamical Systems in Pure and Applied Mathematics~II: Fractals in Applied Mathematics}, edited by D.~Carf\`i, M.\,L.~Lapidus, E.\,P.\,J.~Pearse, and M.~van Frankenhuijsen, Contemporary Mathematics Vol.~601 (American Mathematical Society, Providence, RI, 2013), pp.~1--21.
 
 \bibitem{Rammal1984}
 R.~Rammal, Spectrum of harmonic excitations on fractals, J.\ Phys.\ (Paris) \textbf{45}, 191 (1984).
