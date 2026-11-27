@@ -31,7 +31,27 @@
 \date{\today}
 
 \begin{abstract}
-Mean-field Bogoliubov--de Gennes (BdG) studies of the attractive Hubbard model predict that finitely ramified fractal lattices, such as the Sierpi\'nski gasket, can substantially enhance the superconducting pairing amplitude and the pair-formation temperature $\Tmf$ relative to their regular crystalline parents. In low-dimensional systems, however, true superconductivity requires macroscopic phase coherence, which is vulnerable to thermal phase fluctuations and vortex proliferation. Here we investigate how thermal phase and amplitude fluctuations govern phase coherence on finite fractal flakes---the triangular and honeycomb Sierpi\'nski gaskets and the infinitely ramified Sierpi\'nski carpet---by combining static-path fermionic BdG Hybrid Monte Carlo with an effective classical XY model derived from the microscopic BdG phase Hessian. We find that on finitely ramified gaskets, pair formation and global phase coherence move in opposite directions: while spectral localization elevates $\Tmf$ at weak coupling, geometric bottlenecks and internal lacunae strongly suppress the superfluid stiffness, pushing the phase-coherence crossover far below that of the filled parent lattice and opening a broad temperature window of locally paired, phase-incoherent Cooper pairs. Across generations, the coherence crossover drifts algebraically toward zero on finitely ramified gaskets as thermal vortices populate the largest internal lacunae first, in contrast to the much slower size dependence on the infinitely ramified carpet. Finally, relaxing the full BdG free-energy functional along minimum-energy vortex escape paths reveals that local suppression of the pairing amplitude at corner bottlenecks turns narrow constrictions into self-induced weak links, sharply reducing vortex escape barriers relative to rigid-spin XY estimates and preventing geometric pinning from stabilizing global coherence.
+Mean-field Bogoliubov--de Gennes (BdG) calculations for the attractive Hubbard
+model predict that finitely ramified fractal lattices, such as the
+Sierpi\'nski gasket, enhance the pairing amplitude and the pair-formation
+temperature relative to their regular parent lattices. Superconductivity,
+however, also requires global phase coherence, which in low-dimensional
+systems is limited by thermal phase fluctuations. We study these fluctuations
+on finite triangular and honeycomb Sierpi\'nski gaskets and on the infinitely
+ramified Sierpi\'nski carpet, using static-path BdG hybrid Monte Carlo and an
+XY model derived from the BdG phase Hessian. On the gaskets, pair formation
+and phase coherence respond to the geometry in opposite ways: the
+pair-formation temperature increases, while the phase-coherence crossover
+falls well below that of the parent lattice, leaving a wide temperature window
+of phase-incoherent local pairs. The crossover
+temperature on the gaskets decreases algebraically with system size, and
+thermal vortices appear first in the largest lacunae; on the carpet, the size
+dependence is much weaker. Minimum-energy-path calculations further show that
+suppression of the pairing amplitude at the single-site corner junctions of
+the gasket strongly lowers the barriers for vortex escape from the lacunae.
+Because the loss of coherence is tied to these specific geometric features,
+we discuss how modified fractal geometries could retain the enhanced pairing
+while preserving phase coherence.
 \end{abstract}
 
 \maketitle
@@ -41,13 +61,99 @@ Mean-field Bogoliubov--de Gennes (BdG) studies of the attractive Hubbard model p
 \label{sec:intro}
 %======================================================================
 
-Artificial fractal lattices have become experimentally realizable platforms for quantum condensed matter physics, spanning atomic manipulation of CO molecules on Cu(111)~\cite{Kempkes2019}, molecular self-assembly~\cite{Shang2015,Li2017}, epitaxial bismuth nanostructures~\cite{Canyellas2024Bi}, and lithographic superconducting wire networks and Josephson arrays~\cite{Gordon1986,Meyer1991,Meyer2002,Amundsen2024}. Unlike disordered media, deterministic fractals combine discrete scale invariance and non-integer Hausdorff dimension without random impurity scattering~\cite{Mandelbrot1982,Akkermans2012}, producing highly clustered single-particle spectra separated by internal decimation gaps~\cite{Domany1983,Rammal1984,Iliasov2019,Iliasov2020} as well as distinctive transport and topological boundary phenomena~\cite{Westerhout2018,Brzezinska2018,Fremling2020,Biesenthal2022}.
+Artificial fractal lattices can now be fabricated by several techniques:
+atomic manipulation of CO molecules on Cu(111)~\cite{Kempkes2019}, molecular
+self-assembly~\cite{Shang2015,Li2017}, epitaxial growth of bismuth
+nanostructures~\cite{Canyellas2024Bi}, and lithography of superconducting wire
+networks and Josephson arrays~\cite{Gordon1986,Meyer1991,Meyer2002,Amundsen2024}.
+Deterministic fractals are self-similar and have a non-integer Hausdorff
+dimension, but, unlike disordered media, they contain no random
+scattering~\cite{Mandelbrot1982,Akkermans2012}. Their single-particle spectra
+consist of strongly clustered, highly degenerate levels separated by gaps
+generated by spectral decimation~\cite{Domany1983,Rammal1984,Iliasov2019,Iliasov2020},
+and they show unusual transport and topological boundary
+phenomena~\cite{Westerhout2018,Brzezinska2018,Fremling2020,Biesenthal2022}.
 
-In the context of superconductivity, self-consistent Bogoliubov--de Gennes (BdG) calculations for the attractive Hubbard model recently demonstrated that on finitely ramified Sierpi\'nski gaskets, spectral compression near internal decimation gaps substantially enhances the local pairing amplitude and mean-field pair-formation temperature $\Tmf$ above those of the regular parent crystal, while the zero-temperature superfluid stiffness remains finite~\cite{Iliasov2024}. Related geometric reshaping appears for $d$-wave pairing~\cite{Canyellas2026dwave}, whereas the infinitely ramified Sierpi\'nski carpet shows no comparable mean-field advantage~\cite{Iliasov2024}. Mean-field theory, however, tracks only the onset of local pairing $|\Delta_i|$, whereas superconductivity requires macroscopic phase coherence~\cite{Emery1995}. In two dimensions and below, continuous $U(1)$ symmetry cannot break spontaneously at $T > 0$~\cite{MWH_Mermin1966,Hohenberg1967}; on regular 2D lattices coherence is instead mediated by the Berezinskii--Kosterlitz--Thouless (BKT) transition~\cite{Ber71,KT73,NK77}, while on finitely ramified fractals the saturation of vortex energies in the thermodynamic limit drives $T_{\mathrm{BKT}} \to 0$ as $G \to \infty$~\cite{GMA80,GAM83,Vallat1991,MB10}. On the infinitely ramified Sierpi\'nski carpet, finite-size scaling likewise favors the absence of a finite-temperature BKT transition~\cite{Gefen1984carpet,Carpet13,Przedborski2014}.
+Self-consistent Bogoliubov--de Gennes (BdG) calculations for the attractive
+Hubbard model have shown that on finitely ramified Sierpi\'nski gaskets the
+clustering of levels near the decimation gaps enhances both the local pairing
+amplitude and the mean-field pair-formation temperature $\Tmf$ relative to the
+regular parent lattice, while the zero-temperature superfluid stiffness
+remains finite~\cite{Iliasov2024}. The fractal geometry also strongly affects
+unconventional pairing~\cite{Canyellas2026dwave}, whereas on the infinitely
+ramified Sierpi\'nski carpet no comparable mean-field enhancement
+occurs~\cite{Iliasov2024}.
 
-Yet experimental realizations consist of finite fractal generations ($G = 2$--$4$)~\cite{Kempkes2019,Shang2015,Gordon1986,Meyer1991,Meyer2002}, where phase coherence survives below a size-dependent crossover temperature $T_\times(L)$. Moreover, a recent variational study of the $T=0$ spin-$1/2$ quantum XY model on triangular and honeycomb gaskets up to $G=5$ found that quantum charging fluctuations preserve quasi-long-range order with small algebraic decay exponents $\eta \simeq 0.12$--$0.32$~\cite{Canyellas2026quantum}. The decisive bottleneck for fractal superconductivity therefore lies in the classical thermal-fluctuation sector at $T > 0$, where phase-only approximations can also fail due to Pippard nonlocality, non-cosine phase anharmonicity, and local pairing-amplitude suppression inside vortex cores and narrow constrictions~\cite{GRT01,BTC04,MASD05,DMA07,EM10}.
+Mean-field theory, however, describes only the formation of local pairs.
+Superconductivity also requires phase coherence between them, which is
+controlled by the superfluid stiffness and can be destroyed by phase
+fluctuations even when the pairing amplitude is large~\cite{Emery1995}.
+Continuous $U(1)$ symmetry cannot be broken spontaneously at $T>0$ in two
+dimensions~\cite{MWH_Mermin1966,Hohenberg1967}; on general graphs, the
+corresponding criterion is a spectral dimension $d_s \le 2$~\cite{Cassi1992},
+which holds for both the gasket ($d_s = 2\ln 3/\ln 5 \approx 1.37$) and the
+carpet ($d_s \approx 1.8$). On regular two-dimensional lattices,
+quasi-long-range order nevertheless appears below the
+Berezinskii--Kosterlitz--Thouless (BKT) transition~\cite{Ber71,KT73,NK77}. On
+finitely ramified fractals, models with short-range interactions have no
+finite-temperature transition at all~\cite{GMA80,GAM83}; for the XY model in
+particular, vortex energies stay finite as $G\to\infty$, so that
+$T_{\mathrm{BKT}} = 0$~\cite{Vallat1991,MB10}. Infinitely ramified fractals
+can support finite-temperature transitions for discrete
+symmetries~\cite{Gefen1984carpet}, but Monte Carlo studies of the XY model on
+the Sierpi\'nski carpet~\cite{Carpet13} and on the Menger
+sponge~\cite{Przedborski2014} indicate that no finite-temperature BKT
+transition occurs there either.
 
-In this paper, we combine exact static-path BdG Hybrid Monte Carlo (HMC), microscopic BdG-to-XY phase-Hessian mappings, and minimum-energy-path saddle calculations to answer three concrete questions on finite fractal superconductors. First, does the weak-coupling mean-field pairing enhancement on a finite Sierpi\'nski gasket survive thermal phase and amplitude fluctuations, or does finite ramification collapse global coherence into a broad regime of incoherent preformed pairs (Sec.~\ref{sec:pairing_vs_coherence})? Second, how does the coherence crossover scale with linear system size $L$ across finitely and infinitely ramified fractals, and which topological excitations drive the breakdown (Sec.~\ref{sec:scaling})? Third, do the large internal lacunae of a fractal act as deep pinning traps that stabilize phase coherence, or does local amplitude relaxation at corner articulation bottlenecks collapse their vortex escape barriers (Sec.~\ref{sec:vortex_escape})?
+Experimentally realized fractals, however, are finite, typically of
+generation $G = 2$--$4$~\cite{Kempkes2019,Shang2015,Gordon1986,Meyer1991,Meyer2002}.
+In such systems phase coherence persists below a size-dependent crossover
+temperature $T_\times(L)$, and the relevant question is how this temperature
+compares with $\Tmf$. At $T = 0$, a variational study of the spin-$1/2$
+quantum XY model on triangular and honeycomb gaskets up to $G = 5$ found that
+quantum phase fluctuations preserve quasi-long-range order, with small decay
+exponents $\eta \simeq 0.12$--$0.32$~\cite{Canyellas2026quantum}. The effect
+of thermal fluctuations at $T > 0$ thus remains the main open question.
+
+For the uniform classical XY model on the Sierpi\'nski gasket, the
+thermodynamics and the size dependence of the phase stiffness are already
+known~\cite{Vallat1991,MB10}. In a fractal superconductor, however, the phase
+couplings are neither uniform nor fixed in advance. They are determined by the
+local pairing amplitude and by the electronic phase response, and the geometry
+modifies both. A larger pairing amplitude can increase the local couplings,
+particularly when the relevant electronic levels are nearly
+flat~\cite{PT15}, whereas the reduced connectivity at the corner
+junctions and around the lacunae decreases them. Which of these effects
+dominates the phase stiffness cannot be decided in advance. Moreover, the
+pairing amplitude itself responds to phase gradients, most strongly at narrow
+constrictions and in vortex cores, and the phase response becomes nonlocal
+when the pair size exceeds the lattice spacing and deviates from the cosine
+form at large phase gradients~\cite{GRT01,BTC04,MASD05,DMA07,EM10}. A model
+with fixed couplings then becomes insufficient, and the amplitude and phase of
+the pairing field must be treated together.
+
+In this paper we address these questions for finite Sierpi\'nski gaskets and
+carpets using a hierarchy of methods with increasing level of microscopic
+detail: an XY model whose couplings are derived from the BdG phase Hessian,
+so that they include the renormalization by the geometry; hybrid Monte Carlo
+(HMC) sampling of the static-path BdG free-energy functional with the pairing
+amplitudes frozen at their mean-field values; and HMC sampling of the full
+functional, which includes both phase and amplitude fluctuations. Comparing
+these levels shows which effects control the loss of coherence and where the
+XY description is reliable, which allows us to use it for larger systems.
+In Sec.~\ref{sec:pairing_vs_coherence} we compare pair formation and phase
+coherence on the gaskets and their parent lattices, and show that the geometry
+affects the two in opposite ways. Section~\ref{sec:scaling} discusses how the
+coherence crossover scales with system size and which vortices are
+responsible for the loss of coherence. In Sec.~\ref{sec:vortex_escape} we
+compute minimum-energy paths for vortex escape from the lacunae and show that
+suppression of the pairing amplitude at the corner junctions of the gasket
+lowers the escape barriers, so the lacunae do not act as effective pinning
+centers. In Sec.~\ref{sec:conclusions} we summarize the results and discuss
+how the fractal geometry could be modified to retain the enhanced pairing
+while preserving phase coherence. The derivation of the BdG-to-XY mapping and
+the numerical details are given in Appendices~\ref{app:hessian}
+and~\ref{app:benchmark}.
 
 %======================================================================
 \section{Pairing Enhancement versus Phase-Coherence Collapse}
@@ -713,185 +819,6 @@ Honeycomb $G=4$ ($T=0.0285$) & 24 & 1.47 & 1.54 & 9, 1.76 & 0.35--0.42 & 9, 1.74
 
 \clearpage
 %======================================================================
-\begin{thebibliography}{99}
-
-\bibitem{Kempkes2019}
-S.\,N.~Kempkes, M.\,R.~Slot, S.\,E.~Freeney, S.\,J.\,M.~Zevenhuizen, D.~Vanmaekelbergh, I.~Swart, and C.~Morais~Smith, Design and characterization of electrons in a fractal geometry, Nat.\ Phys.\ \textbf{15}, 127 (2019).
-
-\bibitem{Shang2015}
-J.~Shang, Y.~Wang, M.~Chen, J.~Dai, X.~Zhou, J.~Kuttner, G.~Hilt, X.~Shao, J.\,M.~Gottfried, and K.~Wu, Assembling molecular Sierpi\'nski triangle fractals, Nat.\ Chem.\ \textbf{7}, 389 (2015).
-
-\bibitem{Li2017}
-C.~Li, X.~Zhang, N.~Li, Y.~Wang, J.~Yang, G.~Gu, Y.~Zhang, S.~Hou, L.~Peng, K.~Wu, D.~Nieckarz, P.~Szabelski, H.~Tang, and Y.~Wang, Construction of Sierpi\'nski triangles up to the fifth order, J.\ Am.\ Chem.\ Soc.\ \textbf{139}, 13749 (2017).
-
-\bibitem{Canyellas2024Bi}
-R.~Canyellas, C.~Liu, R.~Arouca, L.~Eek, G.~Wang, Y.~Yin, D.~Guan, Y.~Li, S.~Wang, H.~Zheng, C.~Liu, J.~Jia, and C.~Morais~Smith, Topological edge and corner states in bismuth fractal nanostructures, Nat.\ Phys.\ \textbf{20}, 1421 (2024).
-
-\bibitem{Gordon1986}
-J.\,M.~Gordon, A.\,M.~Goldman, J.~Maps, D.~Costello, R.~Tiberio, and B.~Whitehead, Superconducting-normal phase boundary of a fractal wire network, Phys.\ Rev.\ Lett.\ \textbf{56}, 2280 (1986).
-
-\bibitem{Meyer1991}
-R.~Meyer, J.\,L.~Gavilano, B.~Jeanneret, R.~Th\'eron, C.~Leemann, H.~Beck, and P.~Martinoli, Vortex dynamics in superconducting fractal networks, Phys.\ Rev.\ Lett.\ \textbf{67}, 3022 (1991).
-
-\bibitem{Meyer2002}
-R.~Meyer, S.\,E.~Korshunov, C.~Leemann, and P.~Martinoli, Dimensional crossover in the phase transition of superconducting Sierpi\'nski gasket arrays, Phys.\ Rev.\ B \textbf{66}, 104503 (2002).
-
-\bibitem{Amundsen2024}
-M.~Amundsen, V.~Juri\v{c}i\'c, and J.\,A.~Ouassou, Supercurrents through fractal Josephson weak links, Appl.\ Phys.\ Lett.\ \textbf{125}, 092601 (2024).
-
-\bibitem{Iliasov2024}
-A.\,A.~Iliasov, R.~Canyellas, M.\,I.~Katsnelson, and A.\,A.~Bagrov, Strong enhancement of superconductivity on finitely ramified fractal lattices, J.\ Phys.:\ Condens.\ Matter \textbf{38}, 205601 (2026); arXiv:2310.11497.
-
-\bibitem{Canyellas2026dwave}
-R.~Canyellas, M.\,I.~Katsnelson, and A.\,A.~Bagrov, Unconventional pairing symmetries on fractal superconductors, arXiv:2603.17362 (2026).
-
-\bibitem{Canyellas2026quantum}
-R.~Canyellas, J.~van~Poppelen, A.\,M.~Black-Schaffer, M.\,I.~Katsnelson, and A.\,A.~Bagrov, Quasi-long-range order in the quantum XY model on Sierpi\'nski gaskets, arXiv:2611.23065 (2026).
-
-\bibitem{Ber71}
-V.\,L.~Berezinskii, Destruction of long-range order in one-dimensional and two-dimensional systems having a continuous symmetry group.~I. Classical systems, Sov.\ Phys.\ JETP \textbf{32}, 493 (1971).
-
-\bibitem{KT73}
-J.\,M.~Kosterlitz and D.\,J.~Thouless, Ordering, metastability and phase transitions in two-dimensional systems, J.\ Phys.\ C:\ Solid State Phys.\ \textbf{6}, 1181 (1973).
-
-\bibitem{NK77}
-D.\,R.~Nelson and J.\,M.~Kosterlitz, Universal jump in the superfluid density of two-dimensional superfluids, Phys.\ Rev.\ Lett.\ \textbf{39}, 1201 (1977).
-
-\bibitem{FBJ73}
-M.\,E.~Fisher, M.\,N.~Barber, and D.~Jasnow, Helicity modulus, superfluidity, and scaling in isotropic systems, Phys.\ Rev.\ A \textbf{8}, 1111 (1973).
-
-\bibitem{GMA80}
-Y.~Gefen, B.\,B.~Mandelbrot, and A.~Aharony, Critical phenomena on fractal lattices, Phys.\ Rev.\ Lett.\ \textbf{45}, 855 (1980).
-
-\bibitem{GAM83}
-Y.~Gefen, A.~Aharony, and B.\,B.~Mandelbrot, Phase transitions on fractals:~I. Quasi-linear lattices, J.\ Phys.\ A:\ Math.\ Gen.\ \textbf{16}, 1267 (1983).
-
-\bibitem{Gefen1984carpet}
-Y.~Gefen, A.~Aharony, and B.\,B.~Mandelbrot, Phase transitions on fractals:~III. Infinitely ramified lattices, J.\ Phys.\ A:\ Math.\ Gen.\ \textbf{17}, 1277 (1984).
-
-\bibitem{Vallat1991}
-A.~Vallat, S.\,E.~Korshunov, and H.~Beck, XY model on a Sierpi\'nski gasket, Phys.\ Rev.\ B \textbf{43}, 8482 (1991).
-
-\bibitem{MB10}
-B.~Mitrovi\'c and S.\,K.~Bose, Monte Carlo study of the XY model on a Sierpi\'nski gasket, Phase Transitions \textbf{83}, 572 (2010).
-
-\bibitem{Przedborski2014}
-M.\,A.~Przedborski and B.~Mitrovi\'c, Absence of phase transition in the XY-model on Menger sponge, Physica A \textbf{400}, 139 (2014).
-
-\bibitem{Carpet13}
-B.~Mitrovi\'c and M.~Przedborski, Monte Carlo study of the XY-model on Sierpi\'nski carpet, arXiv:1308.3692 (2013).
-
-\bibitem{Emery1995}
-V.\,J.~Emery and S.\,A.~Kivelson, Importance of phase fluctuations in superconductors with small superfluid density, Nature \textbf{374}, 434 (1995).
-
-\bibitem{MRR90}
-R.~Micnas, J.~Ranninger, and S.~Robaszkiewicz, Superconductivity in narrow-band systems with local nonretarded attractive interactions, Rev.\ Mod.\ Phys.\ \textbf{62}, 113 (1990).
-
-\bibitem{Yan89}
-C.\,N.~Yang, $\eta$ pairing and off-diagonal long-range order in a Hubbard model, Phys.\ Rev.\ Lett.\ \textbf{63}, 2144 (1989).
-
-\bibitem{dG66}
-P.\,G.~de~Gennes, \emph{Superconductivity of Metals and Alloys} (W.\,A.~Benjamin, New York, 1966).
-
-\bibitem{GRT98}
-A.~Ghosal, M.~Randeria, and N.~Trivedi, Role of spatial amplitude fluctuations in highly disordered superconductors, Phys.\ Rev.\ Lett.\ \textbf{81}, 3940 (1998).
-
-\bibitem{GRT01}
-A.~Ghosal, M.~Randeria, and N.~Trivedi, Inhomogeneous pairing in highly disordered $s$-wave superconductors, Phys.\ Rev.\ B \textbf{65}, 014501 (2001).
-
-\bibitem{Iliasov2019}
-A.\,A.~Iliasov, M.\,I.~Katsnelson, and S.~Yuan, Power-law energy level spacing distributions in fractals, Phys.\ Rev.\ B \textbf{99}, 075402 (2019).
-
-\bibitem{Iliasov2020}
-A.\,A.~Iliasov, M.\,I.~Katsnelson, and S.~Yuan, Linearized spectral decimation in fractals, Phys.\ Rev.\ B \textbf{102}, 075440 (2020).
-
-\bibitem{Domany1983}
-E.~Domany, S.~Alexander, D.~Bensimon, and L.\,P.~Kadanoff, Solutions to the Schr\"odinger equation on some fractal lattices, Phys.\ Rev.\ B \textbf{28}, 3110 (1983).
-
-\bibitem{PT15}
-S.~Peotta and P.~T\"orm\"a, Superfluidity in topologically nontrivial flat bands, Nat.\ Commun.\ \textbf{6}, 8944 (2015).
-
-\bibitem{CHK23}
-S.\,A.~Chen and K.\,T.~Law, Ginzburg--Landau theory of flat-band superconductors with quantum metric, Phys.\ Rev.\ Lett.\ \textbf{132}, 026002 (2024); arXiv:2303.15504.
-
-\bibitem{HUW23}
-J.-X.~Hu, S.\,A.~Chen, and K.\,T.~Law, Anomalous coherence length in superconductors with quantum metric, arXiv:2308.05686 (2023).
-
-\bibitem{Isk24}
-M.~Iskin, Extraction of the coherence length from the Ginzburg--Landau theory of flat-band superconductors, Phys.\ Rev.\ B \textbf{110}, 144505 (2024).
-
-\bibitem{BTC04}
-L.~Benfatto, A.~Toschi, and S.~Caprara, Low-energy phase-only action in a superconductor: A comparison with the XY model, Phys.\ Rev.\ B \textbf{69}, 184510 (2004).
-
-\bibitem{MASD05}
-M.~Mayr, G.~Alvarez, C.~\c{S}en, and E.~Dagotto, Phase fluctuations in strongly coupled $d$-wave superconductors, Phys.\ Rev.\ Lett.\ \textbf{94}, 217001 (2005).
-
-\bibitem{DMA07}
-Y.~Dubi, Y.~Meir, and Y.~Avishai, Nature of the superconductor--insulator transition in disordered superconductors, Nature \textbf{449}, 876 (2007).
-
-\bibitem{EM10}
-A.~Erez and Y.~Meir, Thermal phase-fluctuation-induced superconductor-to-insulator transition, EPL \textbf{91}, 47003 (2010).
-
-\bibitem{DKPR87}
-S.~Duane, A.\,D.~Kennedy, B.\,J.~Pendleton, and D.~Roweth, Hybrid Monte Carlo, Phys.\ Lett.\ B \textbf{195}, 216 (1987).
-
-\bibitem{Nea11}
-R.\,M.~Neal, MCMC using Hamiltonian dynamics, in \emph{Handbook of Markov Chain Monte Carlo}, edited by S.~Brooks, A.~Gelman, G.\,L.~Jones, and X.-L.~Meng (CRC Press, Boca Raton, FL, 2011), Chap.~5, pp. 113--162.
-
-\bibitem{Wol89}
-U.~Wolff, Collective Monte Carlo updating for spin systems, Phys.\ Rev.\ Lett.\ \textbf{62}, 361 (1989).
-
-\bibitem{MS88}
-N.~Madras and A.\,D.~Sokal, The pivot algorithm: A highly efficient Monte Carlo method for the self-avoiding walk, J.\ Stat.\ Phys.\ \textbf{50}, 109 (1988).
-
-\bibitem{FP89}
-H.~Flyvbjerg and H.\,G.~Petersen, Error estimates on averages of correlated data, J.\ Chem.\ Phys.\ \textbf{91}, 461 (1989).
-
-\bibitem{You15}
-A.\,P.~Young, \emph{Everything You Wanted to Know About Data Analysis and Fitting but Were Afraid to Ask} (SpringerBriefs in Physics, Springer, Cham, 2015).
-
-\bibitem{And65}
-D.\,G.~Anderson, Iterative procedures for nonlinear integral equations, J.\ ACM \textbf{12}, 547 (1965).
-
-\bibitem{Pul80}
-P.~Pulay, Convergence acceleration of iterative sequences. The case of SCF iteration, Chem.\ Phys.\ Lett.\ \textbf{73}, 393 (1980).
-
-\bibitem{ERV}
-W.~E, W.~Ren, and E.~Vanden-Eijnden, Simplified and improved string method for computing the minimum energy paths in barrier-crossing events, J.\ Chem.\ Phys.\ \textbf{126}, 164103 (2007).
-
-\bibitem{Mandelbrot1982}
-B.\,B.~Mandelbrot, \emph{The Fractal Geometry of Nature} (W.\,H.~Freeman, San Francisco, 1982).
-
-\bibitem{Akkermans2012}
-E.~Akkermans, Statistical mechanics and quantum fields on fractals, in \emph{Fractal Geometry and Dynamical Systems in Pure and Applied Mathematics~II: Fractals in Applied Mathematics}, edited by D.~Carf\`i, M.\,L.~Lapidus, E.\,P.\,J.~Pearse, and M.~van Frankenhuijsen, Contemporary Mathematics Vol.~601 (American Mathematical Society, Providence, RI, 2013), pp.~1--21.
-
-\bibitem{Rammal1984}
-R.~Rammal, Spectrum of harmonic excitations on fractals, J.\ Phys.\ (Paris) \textbf{45}, 191 (1984).
-
-\bibitem{Westerhout2018}
-T.~Westerhout, E.~van~Veen, M.\,I.~Katsnelson, and S.~Yuan, Plasmon confinement in fractal quantum systems, Phys.\ Rev.\ B \textbf{97}, 205434 (2018).
-
-\bibitem{Brzezinska2018}
-M.~Brzezi\'nska, A.\,M.~Cook, and T.~Neupert, Topology in the Sierpi\'nski-Hofstadter problem, Phys.\ Rev.\ B \textbf{98}, 205116 (2018).
-
-\bibitem{Fremling2020}
-M.~Fremling, M.~van~Hooft, C.~Morais~Smith, and L.~Fritz, Existence of robust edge currents in Sierpi\'nski fractals, Phys.\ Rev.\ Res.\ \textbf{2}, 013044 (2020).
-
-\bibitem{Biesenthal2022}
-T.~Biesenthal, L.\,J.~Maczewsky, Z.~Yang, M.~Kremer, M.~Segev, A.~Szameit, and M.\,C.~Heinrich, Fractal photonic topological insulators, Science \textbf{376}, 1114 (2022).
-
-\bibitem{MWH_Mermin1966}
-N.\,D.~Mermin and H.~Wagner, Absence of ferromagnetism or antiferromagnetism in one- or two-dimensional isotropic Heisenberg models, Phys.\ Rev.\ Lett.\ \textbf{17}, 1133 (1966).
-
-\bibitem{Hohenberg1967}
-P.\,C.~Hohenberg, Existence of long-range order in one and two dimensions, Phys.\ Rev.\ \textbf{158}, 383 (1967).
-
-\bibitem{Metropolis1953}
-N.~Metropolis, A.\,W.~Rosenbluth, M.\,N.~Rosenbluth, A.\,H.~Teller, and E.~Teller, Equation of state calculations by fast computing machines, J.\ Chem.\ Phys.\ \textbf{21}, 1087 (1953).
-
-\bibitem{Minnhagen2003}
-P.~Minnhagen and B.\,J.~Kim, Direct evidence for the spin-wave--vortex crossover in the two-dimensional XY model, Phys.\ Rev.\ B \textbf{67}, 172509 (2003).
-
-\end{thebibliography}
+\bibliography{references}
 
 \end{document}
