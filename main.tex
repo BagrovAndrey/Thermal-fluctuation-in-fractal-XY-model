@@ -14,6 +14,7 @@
 \newcommand{\rlead}{\rho_{\mathrm{lead}}}
 \newcommand{\Jb}{\bar{J}}
 \newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 
 \begin{document}
 
@@ -156,18 +157,26 @@ the numerical details are given in Appendices~\ref{app:hessian}
 and~\ref{app:benchmark}.
 
 %======================================================================
-\section{Pairing Enhancement versus Phase-Coherence Collapse}
+%======================================================================
+\section{Pair formation versus phase coherence}
 \label{sec:pairing_vs_coherence}
 %======================================================================
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.94\textwidth]{fig1_pairing_vs_coherence.png}
-\caption{Pairing enhancement versus phase-coherence collapse on the $G=4$ triangular gasket ($N=366$) and filled $G=0$ parent ($N=561$) at $U=1$, $\mu=1.15$, $w=3$. (a)~Full-BdG HMC (Rung~C0) stiffness $\rho(T)$ with $2T/\pi$ (dashed) and $\Tmf$ bands (shaded). (b)~Equal-time pair correlator $G(r)/G(0)$ on the $G=4$ gasket below and above $T_{C0}$ ($T/T_{C0} \approx 0.36, 1.4, 4.0$).}
+\caption{Pair formation and phase coherence on the $G=4$ triangular gasket
+($N=366$) and the filled $G=0$ parent triangle ($N=561$) at $U=1$, $\mu=1.15$,
+$w=3$. (a)~Two-terminal stiffness $\rho(T)$ from full static-path HMC
+(level~C0); the dashed line is $2T/\pi$ and the shaded bands mark $\Tmf$.
+(b)~Equal-time pair correlator $G(r)/G(0)$ on the gasket at
+$T/T_{C0} \approx 0.36$, $1.4$, and $4.0$.}
 \label{fig:pairing_vs_coherence}
 \end{figure*}
 
-We consider the attractive Hubbard model on a finite graph of $N$ sites in the grand-canonical ensemble,
+\subsection{Model and observables}
+
+We consider the attractive Hubbard model on a finite graph of $N$ sites,
 \begin{equation}
 \begin{aligned}
 \hat{H} - \mu\hat{N} ={}& -t\sum_{\langle ij\rangle,\sigma} \left(\hat{c}_{i\sigma}^\dagger \hat{c}_{j\sigma} + \mathrm{H.c.}\right) \\
@@ -175,7 +184,14 @@ We consider the attractive Hubbard model on a finite graph of $N$ sites in the g
 \end{aligned}
 \label{eq:hubbard_main}
 \end{equation}
-where $\hat{c}_{i\sigma}^\dagger$ ($\hat{c}_{i\sigma}$) creates (annihilates) an electron of spin $\sigma \in \{\uparrow,\downarrow\}$ at site $i$, $\hat{n}_{i\sigma} = \hat{c}_{i\sigma}^\dagger \hat{c}_{i\sigma}$, $t = 1$ sets the energy unit on nearest-neighbor graph bonds, $\mu$ is the chemical potential, and $U > 0$ is the on-site attraction ($\hbar = k_B = 1$). Decoupling the interaction in the pairing and Hartree channels yields the $2N \times 2N$ BdG Hamiltonian in the Nambu basis $(\hat{c}_{i\uparrow}, \hat{c}_{i\downarrow}^\dagger)^T$~\cite{dG66,MRR90,GRT98,GRT01},
+where $\hat{c}_{i\sigma}^\dagger$ ($\hat{c}_{i\sigma}$) creates (annihilates)
+an electron with spin $\sigma$ at site $i$,
+$\hat{n}_{i\sigma} = \hat{c}_{i\sigma}^\dagger \hat{c}_{i\sigma}$, the hopping
+$t = 1$ on nearest-neighbor bonds of the graph sets the energy unit, $\mu$ is
+the chemical potential, and $U > 0$ is the on-site attraction
+($\hbar = k_B = 1$). Decoupling the interaction in the pairing and Hartree
+channels gives the $2N \times 2N$ BdG Hamiltonian in the Nambu basis
+$(\hat{c}_{i\uparrow}, \hat{c}_{i\downarrow}^\dagger)^T$~\cite{dG66,MRR90,GRT98,GRT01},
 \begin{equation}
 \begin{aligned}
 \mathcal{H}_{\mathrm{BdG}}[\Delta] &= \begin{pmatrix} \hat{h}_\uparrow & \hat{\Delta} \\ \hat{\Delta}^\dagger & -\hat{h}_\downarrow^T \end{pmatrix}, \\
@@ -183,24 +199,49 @@ where $\hat{c}_{i\sigma}^\dagger$ ($\hat{c}_{i\sigma}$) creates (annihilates) an
 \end{aligned}
 \label{eq:H_bdg_matrix}
 \end{equation}
-with adjacency matrix $A_{ij} \in \{0,1\}$ and $\hat{\Delta} = \mathrm{diag}(\Delta_1, \dots, \Delta_N)$. Its eigenstates,
+with adjacency matrix $A_{ij} \in \{0,1\}$ and
+$\hat{\Delta} = \mathrm{diag}(\Delta_1, \dots, \Delta_N)$. Its eigenstates,
 \begin{equation}
 \mathcal{H}_{\mathrm{BdG}} \begin{pmatrix} u^n \\ v^n \end{pmatrix} = E_n \begin{pmatrix} u^n \\ v^n \end{pmatrix},
 \label{eq:bdg_eigen}
 \end{equation}
-close the self-consistent mean-field equations
+determine the self-consistent mean-field equations
 \begin{align}
 \Delta_i &= \frac{U}{2}\sum_n u_{in} v_{in}^* \tanh\left(\frac{E_n}{2T}\right), \label{eq:gap_scf} \\
 n_{i\uparrow} &= \sum_n |u_{in}|^2 f(E_n), \quad n_{i\downarrow} = \sum_n |v_{in}|^2 \left[1 - f(E_n)\right], \label{eq:density_scf}
 \end{align}
-where $f(E) = (e^{E/T} + 1)^{-1}$.
+where the sums run over all $2N$ eigenstates and $f(E) = (e^{E/T} + 1)^{-1}$.
+We denote by $\Tmf$ the temperature at which the self-consistent solution with
+$\Delta_i \neq 0$ disappears.
 
-To capture thermal fluctuations of both the amplitude $|\Delta_i|$ and phase $\theta_i$ of $\Delta_i = |\Delta_i|e^{i\theta_i}$ beyond mean-field theory, we sample the static-path free-energy functional~\cite{MASD05,DMA07,EM10}
+To include thermal fluctuations of both the amplitude and the phase of
+$\Delta_i = |\Delta_i|e^{i\theta_i}$, we use the static-path
+approximation~\cite{MASD05,DMA07,EM10}. The pairing field is taken to be
+static in imaginary time, and for each configuration of $\Delta_i$ the
+fermions are treated exactly through the BdG spectrum $E_n[\Delta]$. This gives
+the free-energy functional
 \begin{equation}
-F[\Delta] = \sum_i \frac{|\Delta_i|^2}{U} - T\sum_n \ln\left(1 + e^{-E_n[\Delta]/T}\right)
+F[\Delta] = \sum_i \frac{|\Delta_i|^2}{U} - T\sum_n \ln\left(1 + e^{-E_n[\Delta]/T}\right),
 \label{eq:F_static_path}
 \end{equation}
-with Boltzmann weight $e^{-F[\Delta]/T}$ via Hybrid Monte Carlo (HMC)~\cite{DKPR87,Nea11}, holding the Hartree potential $-U n_{i\bar{\sigma}}(T)$ at its self-consistent profile at temperature $T$. Because uniform phase twists violate current conservation around fractal holes, we probe global phase coherence through a two-terminal geometry that pins the pairing phase on a left lead $\mathcal{L}$ ($\theta|_{\mathcal{L}} = 0$) and a right lead $\mathcal{R}$ ($\theta|_{\mathcal{R}} = \phi$) along the discrete harmonic twist profile $u_i$ solving $\sum_{j \in \mathcal{N}(i)}(u_i - u_j) = 0$ on free interior sites. The normalized two-terminal superfluid stiffness is
+which we sample with the weight $e^{-F[\Delta]/T}$ by hybrid Monte Carlo
+(HMC)~\cite{DKPR87,Nea11}, keeping the Hartree potential
+$-U n_{i\bar{\sigma}}(T)$ fixed at its self-consistent profile at temperature
+$T$. The static-path approximation retains all classical fluctuations of the
+pairing field but neglects its quantum (time-dependent) fluctuations; the
+latter were studied for the gaskets at $T = 0$ in
+Ref.~\cite{Canyellas2026quantum}.
+
+The flakes have open boundaries, and on a fractal graph a uniform phase
+gradient is not compatible with current conservation, so the helicity modulus
+cannot be defined with twisted boundary conditions as on a periodic lattice.
+We therefore use a two-terminal geometry. The pairing phase is fixed to zero
+on a left lead $\mathcal{L}$ and to $\phi$ on a right lead $\mathcal{R}$, both
+of width $w$, and the twist is distributed over the flake along the discrete
+harmonic profile $u_i$, which equals $0$ on $\mathcal{L}$ and $1$ on
+$\mathcal{R}$ and satisfies $\sum_{j \in \mathcal{N}(i)}(u_i - u_j) = 0$ on
+the remaining sites (Appendix~\ref{app:benchmark}). We define the
+two-terminal stiffness as
 \begin{equation}
 \begin{aligned}
 \rho(T) &= \frac{K_2(T)}{g_0}, \qquad K_2 = \left.\frac{\partial^2 F_{\mathrm{tot}}(\phi)}{\partial\phi^2}\right|_{\phi=0}, \\
@@ -208,79 +249,435 @@ g_0 &= \sum_{\langle i,j\rangle}(u_i - u_j)^2,
 \end{aligned}
 \label{eq:rho_main}
 \end{equation}
-where $F_{\mathrm{tot}}(\phi) = -T\ln Z(\phi)$ and $g_0$ is the unit-coupling harmonic conductance of the graph. Full details of the contact geometry, HMC sampling, autocorrelation analysis, and our four-rung hierarchy (from mean-field lead twist Rung~A and projected XY Rung~B to frozen-amplitude HMC Rung~P and full-field HMC Rungs~C0/C) are given in Appendices~\ref{app:hessian} and~\ref{app:benchmark}.
+where $F_{\mathrm{tot}}(\phi) = -T\ln Z(\phi)$ and $g_0$ is the harmonic
+conductance of the graph with unit bond couplings. With this normalization, a
+uniform XY model with coupling $J$ has $\rho = J$ at $T = 0$ on any graph, so
+$\rho$ measures the stiffness per unit network conductance and is not affected
+by the different conductances of the graphs themselves.
 
-Figure~\ref{fig:pairing_vs_coherence}(a) presents our central result at weak coupling ($U=1$, $\mu=1.15$, contact width $w=3$), where the $G=4$ triangular Sierpi\'nski gasket sits near the peak of its mean-field pairing dome~\cite{Iliasov2024}, compared directly against the filled $G=0$ parent triangle of identical outer size ($L = 33$, comparable filling; Table~\ref{tab:u1}). On the gasket, spectral clustering near the internal decimation gaps nearly doubles the mean-field pair-formation scale relative to the filled parent, raising $\Tmf$ from roughly $0.05\,t$ to $0.085\,t$. Global phase coherence moves sharply in the opposite direction. Even before thermal fluctuations are turned on, the narrow $z=4$ corner bottlenecks and internal lacunae cut the zero-temperature stiffness roughly fourfold, pulling the bare mean-field crossover $T_A$ below a quarter of $\Tmf$. Once thermal phase and amplitude fluctuations are included in full static-path BdG HMC, the coherence crossover $T_{C0}$ (defined by $\rho(T_{C0}) = 2T_{C0}/\pi$) plunges more than fourfold below the filled parent---from about $0.025\,t$ down to $\simeq 0.006\,t$, roughly fifteen times below $\Tmf$. To ensure that this collapse is not an artifact of the $g_0$ contact normalization or the $2T/\pi$ criterion, we also track the normalization-free half-stiffness temperature $T_{50}$, where thermal fluctuations halve $\rho(T)$ relative to the no-fluctuation BdG stiffness $\rho_A(T)$ on the same contacts [Eq.~\eqref{eq:T50_def}]. It confirms the exact same four-to-fivefold suppression ($\simeq 0.005\,t$ versus $\simeq 0.023\,t$, and an even stronger drop under a sheet-rescaled criterion; Table~\ref{tab:u1} and Appendix~\ref{app:benchmark}).
+In a finite system $\rho(T)$ decreases smoothly with temperature. We define
+the coherence crossover temperature $T_\times$ by $\rho(T_\times) =
+2T_\times/\pi$. On a regular two-dimensional lattice this criterion locates
+the BKT transition through the universal jump of the
+stiffness~\cite{NK77}. On a fractal flake no such universal value is
+available, and we use the criterion as an operational definition of the
+temperature at which phase coherence between the leads is lost. To check that
+our conclusions do not depend on this choice, we also use the half-stiffness
+temperature $T_{50}$, at which fluctuations reduce $\rho$ to half of its value
+without fluctuations [Eq.~\eqref{eq:T50_def}]. This criterion involves neither
+$g_0$ nor the factor $2/\pi$.
 
-The roughly fifteenfold separation between $T_{C0}$ and $\Tmf$ opens a broad regime of locally preformed, phase-incoherent Cooper pairs. Figure~\ref{fig:pairing_vs_coherence}(b) demonstrates this directly through the equal-time spatial pair-field correlator $G(r)/G(0) = \operatorname{Re}\langle \Delta_i \Delta_j^*\rangle / G(0)$ on the $G=4$ triangular gasket. Well below $T_{C0}$ ($T \approx 0.36\,T_{C0}$), $G(r)/G(0)$ remains nearly flat across the entire flake. Above $T_{C0}$---at $T \approx 1.4\,T_{C0}$ and $4\,T_{C0}$ ($\sim 0.02\,t$, still nearly four times below $\Tmf$)---long-range correlations decay by two to three orders of magnitude across the interior and the gauge-fixed coherent condensate fraction $\overline{|\langle\Delta_i\rangle|}/\Delta_{\mathrm{MF}}$ collapses, while short-range pairing at nearest- and next-nearest-neighbor distances ($r = 1$--$2$) persists.
+We compute $\rho(T)$ at several levels of approximation (details in
+Appendix~\ref{app:benchmark}):
+(A)~self-consistent BdG without fluctuations, with $\rho$ obtained from the
+change of the mean-field grand potential under the lead twist;
+(B)~Monte Carlo simulation of an XY model with nearest-neighbor couplings
+$J_b(T)$ derived from the BdG phase Hessian (Sec.~\ref{sec:scaling} and
+Appendix~\ref{app:hessian});
+(P)~HMC sampling of $F[\Delta]$ with the amplitudes frozen at their
+mean-field values $|\Delta_i^{(0)}(T)|$ and only the phases fluctuating;
+(C)~HMC sampling of the full functional $F[\Delta]$. For level~C we use two
+HMC samplers, labeled C0 (at $U=1$) and C (at $U=2$); both sample the same
+functional. The corresponding crossover temperatures are denoted $T_A$,
+$T_B$, $T_P$, and $T_{C0}$ or $T_C$.
 
-Comparing across fractal families and couplings (Appendix~\ref{app:benchmark}, Tables~\ref{tab:u1}--\ref{tab:u2} and Figs.~\ref{fig:tbkt_summary}--\ref{fig:u2_ladder}) clarifies how this trade-off depends on ramification and interaction strength. At $U=1$, the finitely ramified $G=4$ honeycomb gasket exhibits a milder version of the same inversion, whereas the infinitely ramified $G=3$ Sierpi\'nski carpet shows neither a mean-field pairing advantage nor a stiffness collapse relative to the $27\times 27$ square parent (Table~\ref{tab:u1}). Increasing the attraction to intermediate coupling ($U=2$, Table~\ref{tab:u2}) washes out the gasket's mean-field pairing enhancement once $U$ exceeds the local sub-cluster spacing ($\Tmf \approx 0.22\,t$ on both the $G=4$ triangular gasket and its parent), yet the geometric suppression of phase coherence persists, keeping $T_C$ on the $G=4$ triangular gasket roughly threefold below its filled parent (about $0.02\,t$ versus $0.065\,t$).
+\subsection{Triangular gasket versus filled triangle}
+
+Figure~\ref{fig:pairing_vs_coherence}(a) compares the $G=4$ triangular gasket
+with the filled triangle of the same outer size, $L = 33$, at $U = 1$,
+$\mu = 1.15$, and $w = 3$. The two systems have similar filling
+(Table~\ref{tab:u1}), and at these parameters the gasket is close to the
+maximum of its mean-field $\Tmf$~\cite{Iliasov2024}. The mean-field
+pair-formation temperature of the gasket, $\Tmf \approx 0.085\,t$, is almost
+twice that of the parent, $\Tmf \approx 0.047\,t$.
+
+Phase coherence behaves in the opposite way. Already without fluctuations,
+the mean-field crossover is lower on the gasket than on the parent
+($T_A \approx 0.020\,t$ versus $0.036\,t$), and lies below a quarter of the
+gasket's $\Tmf$. Thermal fluctuations lower it further. In full HMC we find
+$T_{C0} \approx 0.0056\,t$ on the gasket and $0.025\,t$ on the parent, so the
+gasket loses coherence at a temperature about four times lower than the parent
+and about fifteen times lower than its own $\Tmf$. The half-stiffness
+criterion gives the same ratio, $T_{50} \approx 0.0051\,t$ versus $0.023\,t$
+(Table~\ref{tab:u1}).
+
+Between $T_{C0}$ and $\Tmf$ the gasket therefore hosts local pairs without
+global phase coherence. Figure~\ref{fig:pairing_vs_coherence}(b) shows this in
+the equal-time pair correlator $G(r) = \operatorname{Re}\langle \Delta_i
+\Delta_j^*\rangle$, averaged over all pairs of sites at [graph] distance $r$.
+At $T \approx 0.36\,T_{C0}$, $G(r)/G(0)$ is nearly independent of $r$ across
+the whole flake. At $T \approx 1.4\,T_{C0}$ and $4\,T_{C0}$, the latter still
+about four times below $\Tmf$, the correlations decay by two to three orders of
+magnitude across the flake, while at $r = 1$--$2$ they remain large.
+
+\subsection{Other geometries and stronger coupling}
+
+The other geometries show how this behavior depends on ramification
+(Table~\ref{tab:u1} and Fig.~\ref{fig:tbkt_summary}). The $G=4$ honeycomb
+gasket shows the same trend in a weaker form: its $\Tmf$ is about $20\%$
+higher than in the parent, while $T_{C0}$ is about $40\%$ lower. Here the
+mean-field crossover $T_A$ is even slightly higher on the gasket than on the
+parent, so the loss of coherence is caused entirely by fluctuations. The
+$G=3$ carpet shows neither effect: its $\Tmf$ and $T_{C0}$ are within $10\%$
+of those of the $27\times 27$ square lattice.
+
+At intermediate coupling, $U = 2$ (Table~\ref{tab:u2}, $w = 1$), the
+mean-field enhancement disappears, and $\Tmf \approx 0.22\,t$ on both the
+$G=4$ triangular gasket and its parent. This is consistent with the
+attraction exceeding the level spacing within the spectral clusters that
+produce the enhancement at weak coupling~\cite{Iliasov2024}. The suppression
+of phase coherence, however, remains: $T_C \approx 0.022\,t$ on the gasket
+versus $0.065\,t$ on the parent. The loss of coherence on the gasket is thus a
+geometric effect that does not depend on the mean-field enhancement of
+pairing.
 
 %======================================================================
-\section{Size Scaling and Hierarchical Vortex Activation}
+\section{Size dependence and vortex activation}
 \label{sec:scaling}
 %======================================================================
 
-Having established that finite ramification severely suppresses phase coherence on a $G=4$ gasket, we now ask how the coherence crossover scales with linear system size $L$ and which topological excitations drive its breakdown. To bridge microscopic BdG theory and large-generation scaling up to $G=7$, we map the quadratic phase response of the BdG functional onto a classical XY model on the same graph,
+\subsection{XY model with BdG couplings}
+
+To reach larger generations than are accessible to fermionic HMC, we map the
+quadratic phase response of the BdG functional onto a classical XY model on
+the same graph,
 \begin{equation}
 H_{\mathrm{XY}} = -\sum_{b=(i,j)} J_b \cos(\theta_i - \theta_j).
 \label{eq:rung_B_H}
 \end{equation}
-As derived step by step in Appendix~\ref{app:hessian}, freezing the pairing amplitude at $|\Delta_i^{(0)}|$, transferring pair-phase differences $\varphi_b = \theta_i - \theta_j$ onto hopping bonds via a local Nambu gauge rotation (with electronic Peierls phase $\alpha_b = \varphi_b/2$), and expanding the grand potential to second order yields the site-phase Laplacian $L = \frac{1}{4}B^T K^{(\alpha)} B$, where $B$ is the directed bond--site incidence matrix and $K^{(\alpha)} = K^{\mathrm{dia}} + K^{\mathrm{para}}$ is the electronic bond Hessian. Inserting the nonlocal off-diagonal elements $-L_{ij}$ directly into a long-range cosine model artificially suppresses stiffness when the pair size exceeds a lattice spacing. Instead, we project $K^{(\alpha)}(T)$ onto nearest-neighbor bond couplings $J_b(T)$ by matching the bond currents induced by uniform twists $\bm{d}_x, \bm{d}_y$:
+The derivation is given in Appendix~\ref{app:hessian}. We freeze the pairing
+amplitudes at their mean-field values $|\Delta_i^{(0)}|$, move the phase
+differences $\varphi_b = \theta_i - \theta_j$ onto the bonds by a local gauge
+rotation in Nambu space, which gives an electronic Peierls phase
+$\alpha_b = \varphi_b/2$, and expand the grand potential to second order in
+$\alpha_b$. This yields the site-phase Hessian
+$L = \frac{1}{4}B^T K^{(\alpha)} B$, where $B$ is the bond--site incidence
+matrix and $K^{(\alpha)} = K^{\mathrm{dia}} + K^{\mathrm{para}}$ is the
+electronic bond Hessian. Because of the paramagnetic term, $L$ has
+off-diagonal elements beyond nearest neighbors whenever the pair size exceeds
+the lattice spacing, and using these elements directly as couplings of a
+long-range cosine model underestimates the stiffness.
+\todo{Evidence for this claim? If $R=\rho_{\mathrm{lead}}/\rho_{\mathrm{harm}}$
+in Table~II is this check, refer to it explicitly; otherwise give a number.}
+We instead project $K^{(\alpha)}(T)$ onto nearest-neighbor couplings $J_b(T)$
+by requiring that they reproduce the bond currents induced by uniform phase
+gradients along $\bm{d}_x$ and $\bm{d}_y$,
 \begin{equation}
 J_b(T) = \frac{1}{4}\,\frac{\sum_{\alpha=x,y} d_{\alpha,b}\left(K^{(\alpha)}(T)\bm{d}_\alpha\right)_b}{\sum_{\alpha=x,y} d_{\alpha,b}^2},
 \label{eq:Jb_projection}
 \end{equation}
-with $d_{\alpha,b} = r_{j,\alpha} - r_{i,\alpha}$.
+with $d_{\alpha,b} = r_{j,\alpha} - r_{i,\alpha}$. The uniform gradients serve
+here only as probes of the kernel $K^{(\alpha)}$; the stiffness itself is
+always computed in the two-terminal geometry of Sec.~\ref{sec:pairing_vs_coherence}.
 
-Our four-rung benchmarks in Appendix~\ref{app:benchmark} delineate where this local BdG-XY mapping succeeds. On finitely ramified gaskets, fractal confinement compresses the Cooper-pair size $\xi_{\mathrm{pair}}$ [Eq.~\eqref{eq:xi_pair}] and phase-kernel range $\xi_K$ to the lattice scale: at $U=1$, pairs span roughly a single bond on the triangular gasket and one elementary hexagon ($\sim 2.6$ bonds) on the honeycomb gasket, concentrating half to three-quarters of the phase-kernel weight on nearest neighbors, compared with less than one-fifth on the carpet and filled parents (Table~\ref{tab:u1} and Fig.~\ref{fig:length_scales}). Consequently, once pairs are compressed to the bond scale at $U=2$, nearest-neighbor BdG-XY Monte Carlo (Rung~B) reproduces full fermionic HMC (Rungs~P and~C) within $\sim 15\%$ across $G=3, 4$ on both gaskets (Table~\ref{tab:u2}). On the Sierpi\'nski carpet and filled 2D lattices, by contrast, Pippard nonlocality at $U=1$ and non-cosine flattening of $F[\Delta]$ at large phase gradients at $U=2$ cause the local XY model to overestimate the fermionic crossover, requiring full fermionic HMC.
+The comparison with fermionic HMC shows where this nearest-neighbor model is
+reliable. On the gaskets the pairs are small: at $U = 1$, $\xi_{\mathrm{pair}}$
+is about one bond on the triangular gasket and about one elementary hexagon on
+the honeycomb gasket, and half to three-quarters of the weight of the phase
+kernel is on nearest-neighbor bonds. On the carpet and the filled lattices,
+the pairs extend over several bonds and less than a fifth of the kernel weight
+is on nearest neighbors (Table~\ref{tab:u1} and Fig.~\ref{fig:length_scales}).
+At $U = 2$, where the pairs are smaller on all geometries, $T_B$ agrees with
+$T_P$ and $T_C$ to within $20\%$ on both gaskets for $G = 3$ and $4$, whereas
+on the carpet and the filled lattices $T_B$ exceeds $T_C$ by $30$--$60\%$
+(Table~\ref{tab:u2}); there, the full functional is flatter than the cosine
+form at large phase gradients, which lowers the crossover. At $U = 1$ the
+agreement is worse. On the triangular gasket, as on the triangular and
+honeycomb parents, $T_B$ exceeds $T_{C0}$ by about $35\%$, while on the
+honeycomb gasket and the square lattice the two agree to within $10\%$. On the
+carpet, where the projection produces negative couplings that we set to zero,
+$T_B$ lies below $T_{C0}$ (Table~\ref{tab:u1}).
+\todo{Ratios computed from Tables~II--III; verify with Robert. This contradicts
+the original claim that the NN XY model is accurate on gaskets at $U=1$, so the
+Conclusions must be narrowed to $U=2$. Why does $T_B < T_{C0}$ on the carpet
+($R=2.03$)? Effect of truncating negative $J_b$?}
+The nearest-neighbor XY model thus reproduces the fermionic crossover on the
+gaskets at intermediate coupling, while at weak coupling it gives the
+crossover only to within a few tens of percent.
+
+\subsection{Size dependence of the crossover}
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.94\textwidth]{fig2_scaling_and_vortex_activation.png}
-\caption{Finite-size scaling and vortex activation in the uniform XY model ($J=1$). (a)~Stiffness crossing $T_\times(L)/J \propto L^{-x}$ versus linear size $L$ ($2^G$ on gaskets, $3^G$ on the carpet). (b)~Free-boundary vortex occupation $\rho_{v,\mathrm{hole}}(T)$ on the $G=6$ triangular gasket for the central lacuna ($L_\partial = 192$), smallest lacunae ($L_\partial = 6$), and elementary plaquettes ($L_\partial = 3$), with fixed-contact $T_\times \approx 0.25\,J$ (dashed).}
+\caption{Size dependence and vortex activation in the uniform XY model
+($J_b = J = 1$). (a)~Crossover temperature $T_\times(L)/J$ versus linear size
+$L$ ($2^G$ on the gaskets, $3^G$ on the carpet), with power-law fits
+$T_\times \propto L^{-x}$. (b)~Vortex occupation $\rho_{v,\mathrm{hole}}(T)$
+with free boundary conditions on the $G=6$ triangular gasket for the central
+lacuna ($P = 192$), the smallest lacunae ($P = 6$), and the elementary
+plaquettes ($P = 3$). The dashed line marks the fixed-contact crossover
+$T_\times \approx 0.25\,J$.
+\todo{$L=2^G$ here vs.\ $L=2^G+1$ and $L=33$ for $G=4$ in Table~I; unify.
+Smallest lacunae have $P=6$ at $G=6$ but $P=12$ at $G=4$ in Table~IV: are the
+uniform-XY lattices built from a different elementary unit $n$? State it.}}
 \label{fig:scaling_vortices}
 \end{figure*}
 
-Because the local XY description accurately captures thermal phase fluctuations on gaskets, the uniform nearest-neighbor XY model ($J_b = J = 1$) cleanly isolates the pure geometric scaling across up to seven generations ($G=1\dots 7$). Figure~\ref{fig:scaling_vortices}(a) displays the double-logarithmic scaling of the normalized two-terminal stiffness crossing $T_\times(L)/J$ versus linear size $L$ ($2^G$ for gaskets, $3^G$ for the carpet). On the finitely ramified triangular and honeycomb gaskets, the crossover decays algebraically as
+Fermionic HMC is limited to $G \le 5$. To follow the size dependence further,
+we use the uniform XY model, $J_b = J$, up to $G = 7$. This model separates the
+effect of the network topology from the renormalization of the couplings by
+the electronic structure; the latter is checked below against the
+inhomogeneous calculations at $G = 3$--$5$. For the uniform model on the
+gasket, decimation gives an effective coupling between the corners of a
+generation-$G$ gasket that scales as
+$J(3/5)^G = J L^{-\ln(5/3)/\ln 2} \simeq J L^{-0.74}$~\cite{Vallat1991},
+which was also probed in experiments on gasket wire networks~\cite{Meyer2002}.
+This factor is the harmonic conductance $g_0(G)$ of the network, which our
+definition of $\rho$ divides out [Eq.~\eqref{eq:rho_main}], so that
+$\rho(0) = J$ for every $G$. The size dependence of $T_\times$ therefore
+measures the thermal reduction of the stiffness beyond the harmonic one. For
+the unnormalized stiffness $K_2$, which sets the energy of a phase twist
+between the leads, the two effects combine and the crossover decreases faster.
+\todo{Which stiffness is physical for two-terminal coherence, $\rho$ or $K_2$?
+If $K_2$, the normalized criterion is conservative (it underestimates the
+suppression on gaskets) --- say so explicitly. Compute the exponent of the
+$K_2$-based crossover and quote it here.}
+
+Figure~\ref{fig:scaling_vortices}(a) shows $T_\times(L)$ for the three
+fractals. On both gaskets the crossover follows a power law,
 \begin{equation}
 \frac{T_\times(L)}{J} \propto L^{-x},
 \label{eq:Tstar_powerlaw}
 \end{equation}
-with $x \approx 0.50$ on the triangular gasket and $x \approx 0.56$ on the honeycomb gasket (which orders at roughly half the temperature of the triangular gasket at fixed $G$ due to its lower coordination and doubled lacuna perimeters). To reconcile $x \approx 0.50$ with the analytical decimation energy scale $J(3/5)^G = J L^{-\ln(5/3)/\ln 2} \simeq J L^{-0.74}$ derived by Vallat, Korshunov, and Beck~\cite{Vallat1991} (and probed in periodic gasket wire networks~\cite{Meyer2002}), recall that the bare unit-network harmonic conductance $g_0(G)$ itself scales as $(3/5)^G \simeq L^{-0.74}$ under decimation. Because $\rho(T) = K_2(T)/g_0(G)$ [Eq.~\eqref{eq:rho_main}] factors out $g_0(G)$ so that $\rho(0)/J = 1$ for every $G$, the exponent $x \approx 0.50$--$0.56$ measures the additional thermal softening produced by vortex occupation across the growing hierarchy of lacunae (and holds identically for $T_{50}$), whereas for the unnormalized conductance stiffness $K_2(T)$ the harmonic decimation factor and thermal vortex softening combine. On the infinitely ramified Sierpi\'nski carpet, inter-block connectivity grows as $2^G$ and $T_\times(L)/J$ drifts much more slowly ($x \approx 0.15$ over $G=2$--$5$). This slow mesoscopic drift does not establish a finite-temperature transition as $G \to \infty$; indeed, the finite-size scaling analysis of Mitrovi\'c and Przedborski~\cite{Carpet13} argues against a finite-$T$ BKT transition on the carpet in the thermodynamic limit. Our microscopic $U=2$ fermionic HMC runs across $G=3, 4, 5$ (Appendix~\ref{app:benchmark}, Fig.~\ref{fig:u2_sizes} and Table~\ref{tab:u2}) follow the same systematic downward drift with generation across Rungs~B, P, and~C.
+with $x \approx 0.50$ on the triangular gasket and $x \approx 0.56$ on the
+honeycomb gasket; $T_{50}$ gives the same exponents. At fixed $G$, $T_\times$
+on the honeycomb gasket is about half of that on the triangular gasket,
+consistent with its lower coordination and the larger perimeters of its
+lacunae. On the carpet, $T_\times$ decreases much more slowly, with
+$x \approx 0.15$ for $G = 2$--$5$. This slow decrease over a limited range of
+sizes does not imply a finite-temperature transition for $G \to \infty$, and
+finite-size scaling for the XY model on the carpet argues against
+one~\cite{Carpet13}.
 
-Figure~\ref{fig:scaling_vortices}(b) identifies the microscopic excitations driving this collapse by resolving the topological vorticity $q_f = (2\pi)^{-1}\sum_{\langle ij\rangle \in \partial f}\mathcal{P}(\theta_j - \theta_i)$ on the triangular gasket by lacuna perimeter $L_\partial$. To prevent pinned leads from biasing vortex nucleation, $\rho_{v,\mathrm{hole}}(T)$ is measured under free boundary conditions, while $\rho(T)$ and $T_\times$ are measured in complementary fixed-contact runs. Because a vortex residing inside a lacuna of perimeter $L_\partial$ spreads its $2\pi$ phase winding over $L_\partial$ boundary bonds without an energetic core ($\nabla\theta \sim 2\pi/L_\partial$), its creation energy drops sharply with perimeter. Thermal vortices therefore activate in a strict scale-separated hierarchy: topological charges populate the largest central lacuna ($L_\partial = 192$ at $G=6$) at temperatures several times below smaller lacunae and elementary triangular plaquettes ($L_\partial = 3$). Right at the fixed-contact crossover $T_\times$, elementary plaquettes remain nearly vortex-free while thermally activated vortices in the largest internal lacunae destroy two-terminal phase coherence.
+The BdG-derived couplings change the size dependence mainly at small $G$. From
+$T_B$ at $U = 2$ (Table~\ref{tab:u2}) we obtain local exponents
+$x_G = \log_2[T_B(G)/T_B(G+1)]$. On the honeycomb gasket,
+$x_3 \approx 0.47$ and $x_4 \approx 0.58$, close to the uniform value. On the
+triangular gasket, $x_3 \approx 0.24$ and $x_4 \approx 0.39$, so the exponent
+approaches the uniform value only gradually.
+\todo{Local exponents are two-point estimates from Table~III; check that $T_B$
+at $G=5$ uses the same $w$ and filling. Table~III entry $T_P<0.0245$ for the
+$G=5$ triangular gasket looks unfinished --- complete or remove.}
+The frozen-amplitude and full HMC results for $G = 3$ and $4$ show the same
+decrease of the crossover with generation (Fig.~\ref{fig:u2_sizes}).
+
+\subsection{Vortices in the lacunae}
+
+Figure~\ref{fig:scaling_vortices}(b) shows which vortices are thermally
+populated near the crossover. We compute the vorticity
+$q_f = (2\pi)^{-1}\sum_{\langle ij\rangle \in \partial f}\mathcal{P}(\theta_j - \theta_i)$
+of each face $f$ of the graph and resolve the vortex occupation by the
+perimeter $P$ of the face. To avoid a bias from the pinned leads, the vortex
+occupation is computed with free boundary conditions, while $\rho$ and
+$T_\times$ are computed with fixed contacts. A vortex inside a lacuna of
+perimeter $P$ has no core: its $2\pi$ phase winding is distributed over the
+$P$ bonds around the lacuna, with a phase difference of about $2\pi/P$ per
+bond, so its energy decreases with $P$ (Sec.~\ref{sec:vortex_escape}).
+Vortices therefore appear in order of decreasing lacuna size. On the $G = 6$
+triangular gasket, the central lacuna ($P = 192$) is populated at temperatures
+several times lower than the smallest lacunae and the elementary plaquettes
+($P = 3$).
+\todo{``Several times lower'': replace by a number read off Fig.~2(b), e.g.\
+the temperatures at which $\rho_{v,\mathrm{hole}}$ reaches a fixed value.}
+At the fixed-contact crossover $T_\times$, the elementary plaquettes are still
+nearly free of vortices, while the largest lacunae are already populated. The
+loss of two-terminal coherence thus coincides with the thermal population of
+vortices in the largest lacunae, rather than with the unbinding of
+vortex--antivortex pairs on the scale of the lattice spacing.
+\todo{Last clause is an interpretation; keep or drop?}
 
 %======================================================================
-\section{Vortex Escape and Amplitude Softening at Corner Bottlenecks}
+\section{Vortex escape from the lacunae}
 \label{sec:vortex_escape}
 %======================================================================
 
-Since vortices populate the largest central lacuna first, a natural question arises: could deep central lacunae act as pinning traps that arrest vortex motion and stabilize phase coherence? In the rigid-spin XY model (Appendix~\ref{app:benchmark}, Fig.~\ref{fig:vortex_energies}), the single-vortex creation energy $E_1(P)$ decreases with hole perimeter $P$ roughly as $P^{-0.8}$ while the static escape barrier $B_{\mathrm{esc}}(P)$ grows with $P$, making the central lacuna the deepest vortex basin on the flake.
+Section~\ref{sec:scaling} showed that vortices populate the largest lacunae
+first. The equilibrium stiffness computed in Secs.~\ref{sec:pairing_vs_coherence}
+and~\ref{sec:scaling} already includes these vortices. A separate question
+concerns their dynamics. A vortex that leaves a lacuna and crosses the flake
+between the leads produces a phase slip. If the barriers for leaving the
+lacunae were large compared with the temperature, such phase slips would be
+rare, and the lacunae could act as pinning centers that limit vortex motion.
+Experiments on superconducting wire networks of Sierpi\'nski gaskets found
+that the ac response close to the transition is governed by thermally
+activated vortex motion in the hierarchical potential landscape formed by the
+loops of the network, and that the sharp drop of the superfluid density
+expected at a BKT transition is absent, which was attributed to strong
+pinning~\cite{Meyer1991,Meyer1992}. In the XY model this scenario also
+appears plausible: the energy $E_1$ of a single vortex in a lacuna decreases
+with the perimeter approximately as $P^{-0.8}$, consistent with the
+prediction $U \propto r^{-\zeta}$, $\zeta = \ln(5/3)/\ln 2 \approx 0.74$, for
+loops of size $r$~\cite{Meyer1991}, while the barrier for escape grows with
+$P$, so the central lacuna is the deepest minimum for a vortex on the flake
+(Fig.~\ref{fig:vortex_energies}).
 
-To test whether this pinning survives in a microscopic superconductor, we compute minimum-energy vortex escape paths directly on three levels of our hierarchy---nearest-neighbor XY with $J_b(T)$ (Rung~B), the exact frozen-amplitude fermionic phase functional $F[a_0 e^{i\theta}]$ (Rung~P), and the full amplitude-and-phase BdG functional $F[\Delta]$ (Rung~C)---using the Laplacian-preconditioned simplified string method~\cite{ERV} followed by Newton refinement of index-$1$ saddles. Comparing these three rungs cleanly disentangles nonlocal phase smoothing (B $\to$ P) from local pairing-amplitude relaxation (P $\to$ C).
+We compute minimum-energy paths for the escape of a single vortex at three
+levels of description: the XY model with couplings $J_b(T)$ (level~B), the
+functional $F[a_0 e^{i\theta}]$ with the amplitudes frozen at
+$a_{0,i} = |\Delta_i^{(0)}(T)|$ (level~P), and the full functional $F[\Delta]$
+(level~C). The paths are obtained with the simplified string
+method~\cite{ERV}, preconditioned with the graph Laplacian, and the saddle
+points are refined by Newton iteration. For levels~P and~C these are paths on
+the static-path free-energy landscape $F[\Delta]$ at temperature $T$; they do
+not include the entropy of thermal fluctuations around the path. Energies are
+given in units of the mean coupling $\Jb$.
+\todo{Define $\Jb$ (average of $J_b(T)$ over bonds?) and give its value in
+units of $t$ for the parameters of Fig.~3.}
+Comparing levels~B and~P shows the effect of the nonlocal and non-cosine phase
+response; comparing levels~P and~C shows the effect of amplitude relaxation.
 
 \begin{figure*}[t]
 \centering
 \includegraphics[width=0.94\textwidth]{fig3_vortex_escape_zoom.png}
-\caption{Vortex escape from the central $P=48$ lacuna of the $G=4$ triangular gasket ($U=1$, $T = 0.008\,t$). (a)~Free-energy barrier $[F(s) - F_{\mathrm{min}}]/\Jb$ across Rungs~B ($\sim 3.9\,\Jb$), P ($\sim 3.2\,\Jb$), and C ($\sim 0.8\,\Jb$), with minimum local amplitude $\min_i(|\Delta_i|/a_{0,i})$ (dashed). (b)~Zoomed $|\Delta_i|/a_{0,i}$ around the $z=4$ corner bottleneck at the minimum ($s=0$) and saddle ($s=0.5$), where $|\Delta_i|$ drops to roughly a quarter of $a_{0,i}$.}
+\caption{Escape of a vortex from the central lacuna ($P=48$) of the $G=4$
+triangular gasket at $U=1$, $T = 0.008\,t$. (a)~Energy along the
+minimum-energy path, $[F(s) - F_{\mathrm{min}}]/\Jb$, at levels~B, P, and~C,
+with barriers of about $3.9$, $3.2$, and $0.8\,\Jb$. The dashed line shows the
+minimum amplitude $\min_i(|\Delta_i|/a_{0,i})$ at level~C. (b)~Amplitude
+$|\Delta_i|/a_{0,i}$ near the corner junction at the minimum ($s=0$) and at the
+saddle point ($s=0.5$); at the saddle point the amplitude on the junction site
+drops to about a quarter of its mean-field value.}
 \label{fig:vortex_escape_zoom}
 \end{figure*}
 
-Figure~\ref{fig:vortex_escape_zoom}(a) shows the free-energy profile along the reaction coordinate $s \in [0, 1]$ for a single vortex escaping from the central $P=48$ lacuna of the $G=4$ triangular gasket at $U=1$ ($T = 0.008\,t$). In the rigid-spin XY model (Rung~B), expelling the vortex across the narrow corner neck requires rotating bonds through $\pi$, yielding a substantial exterior escape barrier of nearly $4\,\Jb$. Replacing the cosine potential by the exact frozen-amplitude fermionic determinant (Rung~P) lowers the barrier only modestly, to about $3.2\,\Jb$, through nonlocal kernel smoothing and non-cosine phase softening. Once the local pairing amplitude $|\Delta_i|$ is allowed to relax (Rung~C), however, the barrier plunges nearly fivefold relative to XY (and fourfold relative to Rung~P) to about $0.8\,\Jb$, while the coreless creation energy $E_1$ inside the central lacuna remains virtually unchanged.
+Figure~\ref{fig:vortex_escape_zoom}(a) shows the energy along the path for a
+vortex leaving the central lacuna ($P = 48$) of the $G = 4$ triangular gasket
+at $U = 1$ and $T = 0.008\,t$, close to the crossover (Table~\ref{tab:u1}). In
+the XY model the vortex must cross a corner junction, where the phase
+difference across a bond has to pass through $\pi$, and the barrier is about
+$3.9\,\Jb$. With the fermionic functional at frozen amplitudes the barrier
+decreases to about $3.2\,\Jb$. When the amplitudes are allowed to relax, it
+drops to about $0.8\,\Jb$, five times lower than in the XY model, while the
+energy $E_1$ of the vortex in the lacuna is almost unchanged.
 
-The zoomed-in saddle-point map in Fig.~\ref{fig:vortex_escape_zoom}(b) reveals the microscopic mechanism behind this collapse. On the triangular Sierpi\'nski gasket, any vortex exiting the central $P=48$ lacuna must pass across a single $z=4$ corner articulation vertex connecting two $G=3$ sub-triangles. In the full BdG functional, the pairing amplitude $|\Delta_i|$ on this single bottleneck site softens to roughly a quarter of its bulk value ($|\Delta_i| \approx 0.25\,a_{0,i}$) at the saddle point ($s = s_{\mathrm{sad}}$), turning the corner vertex into a self-induced weak link. The $2\pi$ phase slip then passes through the suppressed amplitude without paying the large energy cost of rotating rigid spins through $\pi$.
+Figure~\ref{fig:vortex_escape_zoom}(b) shows the origin of this reduction. On
+the triangular gasket, a vortex leaving the central lacuna must pass through
+one of the corner junctions, single sites of coordination $z = 4$ that connect
+two $G = 3$ sub-triangles. At the saddle point, the pairing amplitude on this
+site drops to about a quarter of its mean-field value, and the junction
+becomes a weak link. Since the phase coupling across a bond grows with the
+pairing amplitudes at its ends, the phase difference across the bonds of the
+junction can then pass through $\pi$ at a much lower energy cost, while
+suppressing the amplitude on a single site costs little.
 
-As documented across couplings and geometries in Appendix~\ref{app:benchmark} (Table~\ref{tab:u2barriers} and Fig.~\ref{fig:vortex_energies}), this amplitude-assisted barrier collapse is strongly geometry selective. At $U=1$, smaller triangular ($P \le 12$) and honeycomb ($P \le 24$) lacunae lose metastability altogether in full BdG. At $U=2$, freeing the amplitudes cuts $B_{\mathrm{out}}$ across the triangular gasket (falling roughly threefold from XY to full BdG at $P=48$) and destabilizes the smallest $P=8$ carpet holes as well as most of the $P=12$ triangular holes. Conversely, on the largest $P=96$ lacuna of the $G=4$ honeycomb gasket at $U=2$, where hexagonal rings distribute the phase twist without a single-site $z=4$ corner pinch, the full-BdG barrier remains comparable to the frozen-amplitude value (Table~\ref{tab:u2barriers}). On the triangular gasket at $U=1$, lowering $B_{\mathrm{out}}$ below $\Jb$ reduces the static escape barrier to the order of the thermal crossover scale $T_B$ (and $T_{C0}$). Central-lacuna pinning therefore cannot freeze vortices near the coherence crossover, and current relaxation equilibrates rapidly via thermally activated slips across the softened corner bottlenecks.
+The size of this effect depends on the geometry of the lacuna and its
+surroundings (Table~\ref{tab:u2barriers} and Fig.~\ref{fig:vortex_energies}).
+At $U = 1$, the smaller lacunae of the triangular ($P \le 12$) and honeycomb
+($P \le 24$) gaskets have no metastable vortex states at all in the full
+functional. At $U = 2$, amplitude relaxation reduces the escape barrier from
+the central triangular lacuna from $2.9\,\Jb$ (level~P) to $1.3\,\Jb$
+(level~C). It also removes the metastable states in six of the nine $P = 12$
+lacunae of the triangular gasket and in all $P = 8$ holes of the carpet, and
+strongly lowers the barriers of the $P = 16$ carpet holes. For the largest
+lacunae of the carpet ($P = 40$) and of the honeycomb gasket ($P = 96$),
+amplitude relaxation changes the barrier by less than $30\%$: from $2.7$ to
+$2.2\,\Jb$ on the carpet and from $1.1$ to $1.5\,\Jb$ on the honeycomb gasket.
+On the honeycomb gasket, the barrier is reduced mainly by the nonlocal phase
+response, from $2.3\,\Jb$ at level~B to $1.1\,\Jb$ at level~P.
+\todo{State the geometric difference precisely. The honeycomb gasket is also
+finitely ramified and joins sub-blocks through corner sites: what distinguishes
+its $P=96$ exit from the triangular corner junction? Small carpet holes also
+show strong amplitude reduction: is the common factor a constriction one site
+wide?}
+
+On the triangular gasket at $U = 1$, the escape barrier of about $0.8\,\Jb$ is
+comparable to the crossover temperature.
+\todo{Give $\Jb$ in units of $t$ and compare $0.8\,\Jb$ with
+$T_B \approx 0.0076\,t$ and $T_{C0} \approx 0.0056\,t$; without this number the
+statement cannot be checked.}
+Vortices can therefore leave the lacunae by thermal activation near the
+crossover, and the lacunae do not pin vortices strongly enough to suppress
+phase slips between the leads. The low barriers also imply that the Monte
+Carlo sampling in Secs.~\ref{sec:pairing_vs_coherence}
+and~\ref{sec:scaling} is not hindered by vortices trapped in the lacunae.
 
 %======================================================================
 \section{Conclusions}
 \label{sec:conclusions}
 %======================================================================
 
-Combined with mean-field studies of fractal pairing~\cite{Iliasov2024,Canyellas2026dwave} and variational calculations of the $T=0$ quantum XY limit~\cite{Canyellas2026quantum}, our static-path BdG HMC and vortex-landscape results establish the full finite-temperature phase diagram of superconducting fractals. While spectral compression on finitely ramified Sierpi\'nski gaskets nearly doubles the weak-coupling mean-field pairing scale $\Tmf$ and quantum fluctuations preserve quasi-long-range order at $T=0$, thermal fluctuations at $T>0$ expose the topological fragility of finite ramification. The same $z=4$ corner articulation vertices and internal lacunae that confine electrons and boost $\Tmf$ simultaneously restrict supercurrent pathways, lower the bare stiffness, host low-energy coreless vortices, and undergo local pairing-amplitude softening (down to roughly a quarter of the bulk gap) that collapses vortex escape barriers to the order of the thermal scale. Global phase coherence therefore breaks down more than four times below the filled parent crystal and fifteen times below $\Tmf$, leaving a broad window of short-range incoherent Cooper pairs and an algebraic decay $T_\times(L) \propto L^{-x}$ with fractal generation~\cite{GMA80,GAM83,Vallat1991,MB10}.
+We have studied how thermal fluctuations affect phase coherence on finite
+Sierpi\'nski gaskets and carpets in the attractive Hubbard model, using a
+hierarchy of methods ranging from mean-field BdG theory to HMC sampling of the
+full static-path functional. On the gaskets, the geometry affects pair
+formation and phase coherence in opposite ways. At weak coupling, the $G=4$
+triangular gasket has a mean-field pair-formation temperature almost twice
+that of the filled triangle, but it loses phase coherence at a temperature
+about four times lower than the parent and about fifteen times below its own
+$\Tmf$. Between these temperatures the gasket hosts local pairs without global
+phase coherence. The honeycomb gasket shows the same trend in a weaker form,
+while the carpet shows neither effect. At intermediate coupling the mean-field
+enhancement disappears, but the suppression of coherence remains.
 
-These findings carry direct implications for both modeling and engineering fractal superconducting nanostructures~\cite{Kempkes2019,Shang2015,Canyellas2024Bi,Gordon1986,Meyer1991,Meyer2002}. Methodologically, fractal confinement compresses the Cooper-pair size to a single bond on gaskets, making the projected nearest-neighbor BdG-XY model quantitatively accurate there, whereas carpets and regular 2D lattices require full fermionic HMC to capture Pippard nonlocality and non-cosine phase flattening. From a materials-design perspective, our results highlight a fundamental trade-off: advancing to higher generations of a finitely ramified gasket strengthens local pairing only at the cost of degrading phase stiffness as $2^{-xG}$. Preserving an enhanced superconducting transition temperature in artificial fractal arrays therefore requires replacing single-site corner bottlenecks with multi-bond current paths around internal holes.
+The suppression is tied to specific geometric features of the gaskets. In the
+uniform XY model, the crossover temperature on the gaskets decreases with
+system size as $L^{-x}$ with $x \approx 0.5$--$0.6$, in addition to the
+harmonic reduction of the network conductance, and thermal vortices appear
+first in the largest lacunae. Such vortices could in principle remain pinned
+in the lacunae. Minimum-energy-path calculations with the full BdG functional
+show, however, that the pairing amplitude on the single-site corner junctions
+of the triangular gasket is strongly suppressed when a vortex passes through
+them. The junctions then act as weak links, and the barrier for vortex escape
+from the central lacuna drops by a factor of about five compared with the XY
+estimate, to the order of the crossover temperature. For the largest lacunae
+of the carpet and of the honeycomb gasket, amplitude relaxation changes the
+escape barriers much less.
+
+On the methodological side, the comparison between levels of description
+shows that phase-only models are least reliable in the regime of interest.
+At weak coupling, where the mean-field enhancement of pairing occurs, an XY
+model with nearest-neighbor couplings derived from the BdG phase Hessian
+captures the trends but overestimates the crossover on the triangular gasket
+by about $35\%$, and it misses the amplitude relaxation that lowers the
+vortex escape barriers at the corner junctions by a factor of several. Only
+at intermediate coupling, where the pairs shrink to the bond scale and the
+mean-field enhancement is absent, does the XY model reproduce the fermionic
+crossover on the gaskets to within $20\%$. Fractal superconductors at weak
+coupling therefore require a treatment that includes the fermionic phase
+response and amplitude fluctuations, and phase-only models can strongly
+overestimate vortex pinning in them.
+
+This last point may be relevant to experiments on superconducting wire
+networks of Sierpi\'nski gaskets~\cite{Meyer1991,Meyer1992}. There, the
+exponential rise of the sheet resistance near $T_c$ was described by thermally
+activated vortex motion with an activation energy $\alpha E_J$, where $E_J$ is
+the coupling between adjacent nodes, and the fit gave $\alpha \approx 0.7$,
+whereas the potential landscape computed with rigid phases gives
+$\alpha \approx 10$~\cite{Meyer1992}. The measurements were performed close to
+$T_c$, where the Ginzburg--Landau coherence length is a sizable fraction of
+the link length and the order parameter near the nodes can be suppressed at a
+low cost. The amplitude relaxation at the junctions found here lowers the
+saddle-point energy relative to the rigid-phase estimate and may contribute to
+the low activation energies observed in experiment.
+\todo{Our reduction of $E_1 + B_{\mathrm{out}}$ is $\sim 1.8\times$ at $U=2$
+(Table~IV, $P=48$), far from the factor $\sim 14$ in experiment; compute
+$E_1+B_{\mathrm{out}}$ at $U=1$. Keep the wording ``may contribute''.}
+
+These results do not imply that the enhanced pairing on fractal lattices
+cannot be exploited. They identify what limits phase coherence on the gaskets:
+single-site junctions between sub-blocks, which reduce the stiffness and turn
+into weak links once the pairing amplitude responds to phase gradients.
+Neither feature is required by self-similarity as such. Connecting the
+building blocks through several sites rather than one should weaken both
+effects; the honeycomb gasket, where the mean-field crossover is not reduced
+relative to the parent and amplitude relaxation hardly changes the barrier of
+the largest lacuna, already points in this direction. More generally, finite
+fractal blocks can be assembled into periodic superlattices, as in the wire
+networks of Refs.~\cite{Meyer1991,Meyer1992,Meyer2002}. On scales larger than
+a block, such a system is two-dimensional and can have a finite-temperature
+BKT transition, while the electronic structure within each block retains the
+spectral features responsible for the enhanced pairing. In such structures,
+the way the blocks are connected also determines the local electronic
+structure at the junctions, so the response of the pairing amplitude there is
+no longer fixed by the fractal topology. If the connections are arranged so
+that the pairing amplitude at the junctions is enhanced rather than
+suppressed, the junctions would no longer act as weak links, and the lacunae
+could become efficient pinning centers. Pinning does not raise the
+equilibrium stiffness, but by suppressing phase slips it could keep the
+dissipation low above $T_\times$. Whether a range of parameters exists in
+which enhanced pairing, sufficient phase stiffness, and strong pinning
+coexist remains to be explored.
 
 \begin{acknowledgments}
 The work of R.C., M.I.K., and A.A.B. was supported by the research program ``Materials for the Quantum Age'' (QuMat, registration number 024.005.006), which is part of the Gravitation program financed by the Dutch Ministry of Education, Culture and Science (OCW). A.A.B. and M.I.K. also acknowledge support from the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation program, Grant Agreement No.~854843-FASTCORR, and A.A.B. was supported by NWO Grant No.~OCENW.M.23.044.
